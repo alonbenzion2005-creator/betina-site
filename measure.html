@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Measure Studio — LA GOLD</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#fdfcfa; --ink:#1b1815; --ink-soft:#5b5349; --line:#e3dccf;
+    --gold:#8f6a3f; --panel:#f6f2ea; --accent:#1b1815;
+    --label:"Jost","Helvetica Neue",Arial,sans-serif;
+    --display:"Bodoni Moda","Didot",Georgia,serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;}
+  body{
+    font-family:var(--label); color:var(--ink); background:#e9e3da;
+    display:flex; flex-direction:column; height:100vh; overflow:hidden; font-size:13px;
+  }
+
+  /* ---------- top bar ---------- */
+  header{
+    display:flex; align-items:center; gap:18px; flex-wrap:wrap;
+    padding:10px 18px; background:var(--paper); border-bottom:1px solid var(--line);
+  }
+  header .brand{ font-family:var(--display); font-size:20px; letter-spacing:.04em; }
+  header .brand small{ font-family:var(--label); font-weight:300; letter-spacing:.28em; text-transform:uppercase; font-size:9px; color:var(--ink-soft); display:block; margin-top:2px; }
+  .group{ display:flex; align-items:center; gap:8px; }
+  .group .lbl{ text-transform:uppercase; letter-spacing:.14em; font-size:9px; color:var(--ink-soft); }
+  input[type=number]{ width:62px; padding:5px 6px; border:1px solid var(--line); border-radius:6px; background:#fff; font-family:var(--label); font-size:12px; }
+  button{
+    font-family:var(--label); font-size:11px; letter-spacing:.06em; text-transform:uppercase;
+    padding:7px 12px; border:1px solid var(--ink); background:var(--ink); color:#fff;
+    border-radius:30px; cursor:pointer; transition:.15s;
+  }
+  button.ghost{ background:transparent; color:var(--ink); }
+  button.ghost:hover{ background:var(--ink); color:#fff; }
+  button:hover{ opacity:.85; }
+  button:disabled{ opacity:.35; cursor:not-allowed; }
+  .spacer{ flex:1; }
+
+  /* ---------- main 3-col ---------- */
+  main{ flex:1; display:flex; min-height:0; }
+
+  /* thumbnails */
+  .thumbs{ width:92px; background:var(--panel); border-right:1px solid var(--line); overflow-y:auto; padding:8px; display:flex; flex-direction:column; gap:8px; }
+  .thumb{ position:relative; border:2px solid transparent; border-radius:6px; overflow:hidden; cursor:pointer; background:#fff; }
+  .thumb.active{ border-color:var(--gold); }
+  .thumb img{ width:100%; display:block; aspect-ratio:1109/691; object-fit:cover; }
+  .thumb .nm{ font-size:9px; padding:3px 4px; color:var(--ink-soft); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .thumb .badge{ position:absolute; top:3px; right:3px; background:var(--gold); color:#fff; border-radius:20px; font-size:9px; padding:1px 6px; }
+  .thumb .del{ position:absolute; top:3px; left:3px; background:rgba(0,0,0,.6); color:#fff; border:0; border-radius:50%; width:16px; height:16px; padding:0; font-size:10px; line-height:1; display:none; }
+  .thumb:hover .del{ display:block; }
+
+  /* stage */
+  .stagewrap{ flex:1; position:relative; background:#cfc7bb; overflow:auto; display:flex; align-items:flex-start; justify-content:center; }
+  #stage{ position:relative; margin:24px; }
+  canvas#main{ display:block; box-shadow:0 6px 30px rgba(0,0,0,.25); background:#fff;
+    background-image:linear-gradient(45deg,#eee 25%,transparent 25%),linear-gradient(-45deg,#eee 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#eee 75%),linear-gradient(-45deg,transparent 75%,#eee 75%);
+    background-size:20px 20px; background-position:0 0,0 10px,10px -10px,-10px 0; cursor:crosshair; }
+  .dropmsg{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; text-align:center; color:var(--ink-soft); pointer-events:none; }
+  .dropmsg .big{ font-family:var(--display); font-size:26px; color:var(--ink); margin-bottom:8px; }
+
+  /* loupe + hud */
+  #loupe{ position:absolute; top:12px; right:12px; width:168px; height:168px; border:1px solid var(--ink); border-radius:8px; overflow:hidden; box-shadow:0 4px 16px rgba(0,0,0,.3); display:none; background:#fff; z-index:5; pointer-events:none; }
+  #loupe canvas{ image-rendering:pixelated; width:168px; height:168px; }
+  #loupe .cx{ position:absolute; inset:0; pointer-events:none; }
+  #hud{ position:fixed; bottom:14px; left:104px; background:rgba(27,24,21,.9); color:#fff; padding:6px 12px; border-radius:30px; font-size:11px; letter-spacing:.04em; z-index:6; pointer-events:none; }
+
+  /* zoom bar */
+  .zoombar{ position:absolute; left:12px; bottom:12px; display:flex; gap:6px; align-items:center; background:var(--paper); border:1px solid var(--line); border-radius:30px; padding:4px 8px; z-index:6; }
+  .zoombar button{ padding:3px 9px; }
+  .zoombar span{ font-size:11px; min-width:42px; text-align:center; }
+
+  /* right panel */
+  .panel{ width:340px; background:var(--paper); border-left:1px solid var(--line); display:flex; flex-direction:column; min-height:0; }
+  .panel h3{ font-family:var(--display); font-weight:500; font-size:15px; padding:12px 14px 8px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:center; }
+  .panel h3 .cnt{ font-family:var(--label); font-size:10px; color:var(--ink-soft); letter-spacing:.1em; }
+  .boxlist{ overflow-y:auto; padding:8px 10px; display:flex; flex-direction:column; gap:6px; }
+  .boxrow{ display:flex; align-items:center; gap:7px; padding:6px; border:1px solid var(--line); border-radius:7px; background:#fff; }
+  .boxrow.sel{ border-color:var(--gold); box-shadow:0 0 0 2px rgba(143,106,63,.18); }
+  .boxrow.child{ border-style:dashed; }
+  .boxrow .nest{ color:var(--ink-soft); font-size:11px; flex-shrink:0; }
+  .boxrow .chip{ width:12px; height:12px; border-radius:3px; flex-shrink:0; }
+  .boxrow input.lab{ flex:1; min-width:0; border:0; border-bottom:1px solid transparent; font-family:var(--label); font-size:12px; padding:2px 0; background:transparent; }
+  .boxrow input.lab:focus{ outline:none; border-bottom-color:var(--gold); }
+  .boxrow .co{ font-size:10px; color:var(--ink-soft); white-space:nowrap; font-variant-numeric:tabular-nums; }
+  .boxrow .x{ border:0; background:transparent; color:#b54; font-size:14px; padding:0 2px; border-radius:4px; }
+  .boxrow .x:hover{ background:#fbe9e7; }
+  .panel .empty{ padding:18px 14px; color:var(--ink-soft); font-size:12px; line-height:1.6; }
+
+  .out{ border-top:1px solid var(--line); display:flex; flex-direction:column; min-height:0; }
+  .out .head{ display:flex; align-items:center; gap:8px; padding:10px 12px 6px; }
+  .out .head .lbl{ text-transform:uppercase; letter-spacing:.14em; font-size:9px; color:var(--ink-soft); }
+  .seg{ display:flex; border:1px solid var(--line); border-radius:20px; overflow:hidden; }
+  .seg button{ border:0; background:#fff; color:var(--ink); border-radius:0; padding:5px 10px; font-size:10px; }
+  .seg button.on{ background:var(--ink); color:#fff; }
+  textarea#output{ flex:1; min-height:120px; max-height:34vh; resize:none; margin:0 12px 12px; padding:10px; border:1px solid var(--line); border-radius:8px; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:11px; line-height:1.6; background:#fbf9f5; color:var(--ink); white-space:pre; overflow:auto; }
+
+  .hint{ font-size:10px; color:var(--ink-soft); padding:0 14px 10px; line-height:1.6; }
+  .hint b{ color:var(--ink); font-weight:500; }
+  input[type=file]{ display:none; }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">Measure Studio<small>LA Gold · pixel mapper</small></div>
+
+  <div class="group">
+    <span class="lbl">Frame</span>
+    <input type="number" id="fw" value="1109" min="1" />
+    <span style="color:var(--ink-soft)">×</span>
+    <input type="number" id="fh" value="691" min="1" />
+  </div>
+
+  <div class="group">
+    <span class="lbl">Tool</span>
+    <div class="seg">
+      <button id="toolSelect" class="on" title="Select / move / resize (V)">Select</button>
+      <button id="toolDraw" title="Draw a new box even inside another (D · or hold Alt)">Draw&nbsp;in</button>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+
+  <div class="group">
+    <button id="btnLoad">Load Images</button>
+    <button class="ghost" id="btnAuto">Auto-detect</button>
+    <button class="ghost" id="btnClearBoxes">Clear Boxes</button>
+    <button class="ghost" id="btnSave">Save Project</button>
+    <button class="ghost" id="btnImport">Open Project</button>
+  </div>
+  <input type="file" id="file" accept="image/*" multiple />
+  <input type="file" id="projfile" accept="application/json,.json" />
+</header>
+
+<main>
+  <div class="thumbs" id="thumbs"></div>
+
+  <div class="stagewrap" id="stagewrap">
+    <div id="stage">
+      <canvas id="main" width="1109" height="691"></canvas>
+      <div id="loupe"><canvas id="loupeCv" width="168" height="168"></canvas><div class="cx"></div></div>
+      <div class="dropmsg" id="dropmsg">
+        <div>
+          <div class="big">Drop screenshots here</div>
+          <div>or click “Load Images”. Every image is mapped onto the <b>1109 × 691</b> frame.</div>
+        </div>
+      </div>
+    </div>
+    <div class="zoombar">
+      <button class="ghost" id="zOut">−</button>
+      <span id="zVal">Fit</span>
+      <button class="ghost" id="zIn">+</button>
+      <button class="ghost" id="zFit">Fit</button>
+      <button class="ghost" id="z100">100%</button>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>Boxes <span class="cnt" id="boxCount">0</span></h3>
+    <div class="boxlist" id="boxlist"></div>
+
+    <div class="out">
+      <div class="head">
+        <span class="lbl">Output</span>
+        <div class="seg">
+          <button id="modeCur" class="on">This image</button>
+          <button id="modeAll">All images</button>
+        </div>
+        <div class="spacer"></div>
+        <button id="btnCopy">Copy</button>
+      </div>
+      <textarea id="output" readonly spellcheck="false"></textarea>
+      <div class="hint">
+        <b>Draw:</b> drag on the image · <b>Box in a box:</b> switch to <b>Draw&nbsp;in</b> (key D) or hold <b>Alt</b>, then drag inside another box — it auto-nests · <b>Move/Resize:</b> drag a selected box or its handles · <b>Rename:</b> edit in list · <b>Delete:</b> Del · <b>Nudge:</b> arrows (Shift = 10px)
+      </div>
+    </div>
+  </div>
+</main>
+
+<div id="hud" style="display:none"></div>
+
+<script>
+(function(){
+"use strict";
+
+const PALETTE = ["#c0392b","#2d7d46","#2563a8","#8f6a3f","#7d3c98","#117a8b","#b9770e","#c2185b","#34495e","#0f9d58"];
+let nextColor = 0;
+
+const state = {
+  targetW: 1109, targetH: 691,
+  images: [],          // {name, dataURL, img, boxes:[]}
+  active: -1,
+  selId: null,
+  zoom: null,          // null = fit
+  outMode: "cur",
+  mode: "select",      // "select" | "draw"
+};
+let uid = 1;
+
+const $ = id => document.getElementById(id);
+const cv = $("main"), ctx = cv.getContext("2d");
+const loupe = $("loupe"), loupeCv = $("loupeCv"), lctx = loupeCv.getContext("2d");
+const stagewrap = $("stagewrap");
+
+/* ---------------- image loading ---------------- */
+function loadFiles(files){
+  const arr = [...files].filter(f=>f.type.startsWith("image/"));
+  let pending = arr.length;
+  if(!pending) return;
+  arr.forEach(f=>{
+    const r = new FileReader();
+    r.onload = e=>{
+      const img = new Image();
+      img.onload = ()=>{
+        state.images.push({name:f.name, dataURL:e.target.result, img, boxes:[]});
+        if(state.active<0) state.active = 0;
+        pending--; if(pending===0){ renderThumbs(); selectImage(state.active); }
+      };
+      img.src = e.target.result;
+    };
+    r.readAsDataURL(f);
+  });
+}
+$("file").addEventListener("change", e=>{ loadFiles(e.target.files); e.target.value=""; });
+$("btnLoad").addEventListener("click", ()=> $("file").click());
+
+// drag & drop
+["dragover","drop"].forEach(ev=> stagewrap.addEventListener(ev, e=>{ e.preventDefault(); }));
+stagewrap.addEventListener("drop", e=> loadFiles(e.dataTransfer.files));
+
+/* ---------------- thumbnails ---------------- */
+function renderThumbs(){
+  const t = $("thumbs"); t.innerHTML="";
+  state.images.forEach((im,i)=>{
+    const d = document.createElement("div");
+    d.className = "thumb"+(i===state.active?" active":"");
+    d.innerHTML = `<img src="${im.dataURL}"><div class="nm">${im.name}</div>`
+      + (im.boxes.length?`<span class="badge">${im.boxes.length}</span>`:"")
+      + `<button class="del" title="remove">×</button>`;
+    d.addEventListener("click", e=>{ if(e.target.classList.contains("del")) return; selectImage(i); });
+    d.querySelector(".del").addEventListener("click", e=>{ e.stopPropagation(); removeImage(i); });
+    t.appendChild(d);
+  });
+}
+function removeImage(i){
+  state.images.splice(i,1);
+  if(state.images.length===0){ state.active=-1; }
+  else if(state.active>=state.images.length) state.active=state.images.length-1;
+  state.selId=null; renderThumbs(); selectImage(state.active);
+}
+function selectImage(i){
+  state.active = i; state.selId=null; state.zoom=null;
+  renderThumbs(); fitZoom(); draw(); renderList(); updateOutput();
+  $("dropmsg").style.display = state.active<0 ? "flex" : "none";
+}
+function cur(){ return state.active>=0 ? state.images[state.active] : null; }
+
+/* ---------------- frame size ---------------- */
+function applyFrame(){
+  const nw = Math.max(1, parseInt($("fw").value)||1109);
+  const nh = Math.max(1, parseInt($("fh").value)||691);
+  const sx = nw/state.targetW, sy = nh/state.targetH;
+  // rescale existing boxes on every image
+  state.images.forEach(im=> im.boxes.forEach(b=>{
+    b.x1=Math.round(b.x1*sx); b.x2=Math.round(b.x2*sx);
+    b.y1=Math.round(b.y1*sy); b.y2=Math.round(b.y2*sy);
+  }));
+  state.targetW=nw; state.targetH=nh;
+  cv.width=nw; cv.height=nh;
+  fitZoom(); draw(); renderList(); updateOutput();
+}
+$("fw").addEventListener("change", applyFrame);
+$("fh").addEventListener("change", applyFrame);
+
+/* ---------------- zoom ---------------- */
+function fitZoom(){
+  const avail = stagewrap.clientWidth - 60;
+  state.zoom = null; // marker for fit
+  applyZoom();
+}
+function effZoom(){
+  if(state.zoom) return state.zoom;
+  const avail = stagewrap.clientWidth - 60;
+  return Math.max(0.1, Math.min(2, avail/state.targetW));
+}
+function applyZoom(){
+  const z = effZoom();
+  cv.style.width = (state.targetW*z)+"px";
+  cv.style.height = (state.targetH*z)+"px";
+  $("zVal").textContent = state.zoom? Math.round(z*100)+"%" : "Fit";
+}
+$("zIn").addEventListener("click", ()=>{ state.zoom = Math.min(4, effZoom()*1.25); applyZoom(); });
+$("zOut").addEventListener("click", ()=>{ state.zoom = Math.max(0.1, effZoom()/1.25); applyZoom(); });
+$("zFit").addEventListener("click", fitZoom);
+$("z100").addEventListener("click", ()=>{ state.zoom=1; applyZoom(); });
+window.addEventListener("resize", ()=>{ if(!state.zoom) applyZoom(); });
+
+/* ---------------- drawing the canvas ---------------- */
+function draw(){
+  const im = cur();
+  ctx.clearRect(0,0,cv.width,cv.height);
+  if(!im){ return; }
+  ctx.drawImage(im.img, 0,0, cv.width, cv.height);   // stretch into frame
+  im.boxes.forEach(b=> drawBox(b, b.id===state.selId, isChild(im,b)));
+}
+function drawBox(b,sel,child){
+  const x=Math.min(b.x1,b.x2), y=Math.min(b.y1,b.y2), w=Math.abs(b.x2-b.x1), h=Math.abs(b.y2-b.y1);
+  ctx.save();
+  ctx.fillStyle = hexA(b.color, child?.08:.14); ctx.fillRect(x,y,w,h);
+  ctx.lineWidth = sel?2:1.5; ctx.strokeStyle = b.color;
+  if(child) ctx.setLineDash([6,4]);
+  ctx.strokeRect(x+.5,y+.5,w,h);
+  ctx.setLineDash([]);
+  // label tag
+  const txt = b.label||"";
+  ctx.font = "500 13px Jost, sans-serif";
+  const tw = ctx.measureText(txt).width;
+  ctx.fillStyle = b.color; ctx.fillRect(x, Math.max(0,y-17), tw+10, 16);
+  ctx.fillStyle = "#fff"; ctx.textBaseline="middle";
+  ctx.fillText(txt, x+5, Math.max(8,y-9));
+  if(sel){
+    ctx.fillStyle="#fff"; ctx.strokeStyle=b.color; ctx.lineWidth=1.5;
+    handlePts(b).forEach(p=>{ ctx.beginPath(); ctx.rect(p.x-4,p.y-4,8,8); ctx.fill(); ctx.stroke(); });
+  }
+  ctx.restore();
+}
+function handlePts(b){
+  const x1=Math.min(b.x1,b.x2), x2=Math.max(b.x1,b.x2), y1=Math.min(b.y1,b.y2), y2=Math.max(b.y1,b.y2);
+  const mx=(x1+x2)/2, my=(y1+y2)/2;
+  return [
+    {k:"nw",x:x1,y:y1},{k:"n",x:mx,y:y1},{k:"ne",x:x2,y:y1},
+    {k:"e",x:x2,y:my},{k:"se",x:x2,y:y2},{k:"s",x:mx,y:y2},
+    {k:"sw",x:x1,y:y2},{k:"w",x:x1,y:my}
+  ];
+}
+function hexA(hex,a){ const n=parseInt(hex.slice(1),16); return `rgba(${n>>16&255},${n>>8&255},${n&255},${a})`; }
+
+/* ---- nesting: a box is a child of the SMALLEST other box that fully contains it ---- */
+function nb(b){ return {x1:Math.min(b.x1,b.x2),y1:Math.min(b.y1,b.y2),x2:Math.max(b.x1,b.x2),y2:Math.max(b.y1,b.y2)}; }
+function parentOf(im,b){
+  const bb=nb(b); let best=null,bestArea=Infinity;
+  for(const o of im.boxes){ if(o===b) continue; const ob=nb(o);
+    if(ob.x1<=bb.x1&&ob.y1<=bb.y1&&ob.x2>=bb.x2&&ob.y2>=bb.y2){
+      const a=(ob.x2-ob.x1)*(ob.y2-ob.y1); if(a<bestArea){bestArea=a;best=o;}
+    }
+  }
+  return best;
+}
+// flatten boxes into parent-then-children order with a depth for each
+function ordered(im){
+  const kids=new Map(), roots=[];
+  im.boxes.forEach(b=>{ const p=parentOf(im,b); if(p){ if(!kids.has(p)) kids.set(p,[]); kids.get(p).push(b); } else roots.push(b); });
+  const out=[], seen=new Set();
+  function walk(b,d){ if(seen.has(b)||d>20) return; seen.add(b); out.push({b,d}); (kids.get(b)||[]).forEach(c=>walk(c,d+1)); }
+  roots.forEach(r=>walk(r,0));
+  im.boxes.forEach(b=>{ if(!seen.has(b)) out.push({b,d:0}); });  // safety net
+  return out;
+}
+function isChild(im,b){ return !!parentOf(im,b); }
+
+/* ---------------- mouse → frame coords ---------------- */
+function toFrame(e){
+  const r = cv.getBoundingClientRect();
+  let x = (e.clientX-r.left)/r.width * cv.width;
+  let y = (e.clientY-r.top)/r.height * cv.height;
+  x = Math.round(Math.max(0,Math.min(cv.width, x)));
+  y = Math.round(Math.max(0,Math.min(cv.height, y)));
+  return {x,y};
+}
+
+let drag=null;
+cv.addEventListener("mousedown", e=>{
+  const im=cur(); if(!im) return;
+  const {x,y}=toFrame(e);
+  const forceDraw = state.mode==="draw" || e.altKey;   // draw a box even inside another
+  if(!forceDraw){
+    // handle on selected?
+    const sel = im.boxes.find(b=>b.id===state.selId);
+    if(sel){
+      const tol = 7/effZoom();
+      const h = handlePts(sel).find(p=>Math.abs(p.x-x)<=tol && Math.abs(p.y-y)<=tol);
+      if(h){ drag={mode:"resize",handle:h.k,b:sel}; return; }
+    }
+    // body hit — pick the INNERMOST (smallest) box under the cursor so nested boxes are selectable
+    let hit=null, hitArea=Infinity;
+    im.boxes.forEach(b=>{ const n=nb(b);
+      if(x>=n.x1&&x<=n.x2&&y>=n.y1&&y<=n.y2){ const a=(n.x2-n.x1)*(n.y2-n.y1); if(a<hitArea){hitArea=a;hit=b;} } });
+    if(hit){ state.selId=hit.id; drag={mode:"move",b:hit,ox:x,oy:y,sx1:hit.x1,sy1:hit.y1,sx2:hit.x2,sy2:hit.y2}; renderList(); draw(); return; }
+  }
+  // new box (may be drawn inside another → auto-nests)
+  const b={id:uid++, label:nextLabel(), color:PALETTE[nextColor++%PALETTE.length], x1:x,y1:y,x2:x,y2:y};
+  im.boxes.push(b); state.selId=b.id; drag={mode:"draw",b};
+  renderList();
+});
+window.addEventListener("mousemove", e=>{
+  const im=cur(); if(!im) return;
+  if(isOver(e)) { updateLoupe(e); }
+  if(!drag){ return; }
+  const {x,y}=toFrame(e); const b=drag.b;
+  if(drag.mode==="draw"){ b.x2=x; b.y2=y; }
+  else if(drag.mode==="move"){
+    let dx=x-drag.ox, dy=y-drag.oy;
+    const w=drag.sx2-drag.sx1, h=drag.sy2-drag.sy1;
+    let nx1=drag.sx1+dx, ny1=drag.sy1+dy;
+    nx1=Math.max(Math.min(nx1, cv.width-Math.abs(w)),0);
+    ny1=Math.max(Math.min(ny1, cv.height-Math.abs(h)),0);
+    b.x1=nx1; b.y1=ny1; b.x2=nx1+w; b.y2=ny1+h;
+  } else if(drag.mode==="resize"){
+    const k=drag.handle;
+    let x1=Math.min(b.x1,b.x2),x2=Math.max(b.x1,b.x2),y1=Math.min(b.y1,b.y2),y2=Math.max(b.y1,b.y2);
+    if(k.includes("w")) x1=x; if(k.includes("e")) x2=x;
+    if(k.includes("n")) y1=y; if(k.includes("s")) y2=y;
+    b.x1=x1;b.y1=y1;b.x2=x2;b.y2=y2;
+  }
+  draw(); renderList(); updateOutput();
+});
+window.addEventListener("mouseup", ()=>{
+  if(drag){
+    const b=drag.b;
+    if(Math.abs(b.x2-b.x1)<3 || Math.abs(b.y2-b.y1)<3){
+      // discard tiny accidental box only when freshly drawn
+      if(drag.mode==="draw"){ const im=cur(); im.boxes=im.boxes.filter(x=>x!==b); state.selId=null; }
+    } else { normalize(b); }
+    drag=null; renderThumbs(); renderList(); updateOutput(); draw();
+  }
+});
+cv.addEventListener("dblclick", e=>{
+  const im=cur(); if(!im) return; const {x,y}=toFrame(e);
+  for(let i=im.boxes.length-1;i>=0;i--){ const b=im.boxes[i];
+    const x1=Math.min(b.x1,b.x2),x2=Math.max(b.x1,b.x2),y1=Math.min(b.y1,b.y2),y2=Math.max(b.y1,b.y2);
+    if(x>=x1&&x<=x2&&y>=y1&&y<=y2){ const inp=document.querySelector(`.boxrow[data-id="${b.id}"] input.lab`); if(inp){inp.focus();inp.select();} return; }
+  }
+});
+function normalize(b){ const x1=Math.min(b.x1,b.x2),x2=Math.max(b.x1,b.x2),y1=Math.min(b.y1,b.y2),y2=Math.max(b.y1,b.y2); b.x1=x1;b.y1=y1;b.x2=x2;b.y2=y2; }
+function nextLabel(){ const im=cur(); const n=im.boxes.length+1; return "Picture "+n; }
+
+function isOver(e){ const r=cv.getBoundingClientRect(); return e.clientX>=r.left&&e.clientX<=r.right&&e.clientY>=r.top&&e.clientY<=r.bottom; }
+
+/* ---------------- loupe + hud ---------------- */
+function positionLoupe(h,v){
+  loupe.style.left  = h==="left"   ? "12px" : "auto";
+  loupe.style.right = h==="right"  ? "12px" : "auto";
+  loupe.style.top   = v==="top"    ? "12px" : "auto";
+  loupe.style.bottom= v==="bottom" ? "12px" : "auto";
+}
+function updateLoupe(e){
+  const im=cur(); if(!im){ loupe.style.display="none"; $("hud").style.display="none"; return; }
+  const {x,y}=toFrame(e);
+  $("hud").style.display="block"; $("hud").textContent = `x ${x}   y ${y}` + (drag&&drag.b?`    ·   ${Math.abs(drag.b.x2-drag.b.x1)} × ${Math.abs(drag.b.y2-drag.b.y1)}`:"");
+  loupe.style.display="block";
+  // stay top-right; only hop to top-left when the cursor is over the loupe itself
+  const rr=cv.getBoundingClientRect();
+  const cxr=e.clientX-rr.left, cyr=e.clientY-rr.top;
+  const GAP=12, LW=168, M=10;
+  const overLoupe = cxr >= rr.width-GAP-LW-M && cyr <= GAP+LW+M;
+  positionLoupe(overLoupe?"left":"right", "top");
+  const L=168;            // loupe canvas size
+  const VIEW=24;          // frame-pixels shown across the loupe (even → exact centering)
+  const half=VIEW/2;
+  const fx0=x+0.5-half, fy0=y+0.5-half, sc=L/VIEW; // window centred on the cursor pixel's centre
+  lctx.clearRect(0,0,L,L);
+  lctx.fillStyle="#fff"; lctx.fillRect(0,0,L,L);
+  // magnify the FULL-RES source image, window centered exactly on the cursor pixel
+  const iw=im.img.naturalWidth||cv.width, ih=im.img.naturalHeight||cv.height;
+  lctx.imageSmoothingEnabled=true;
+  lctx.drawImage(im.img,
+    fx0/cv.width*iw, fy0/cv.height*ih, VIEW/cv.width*iw, VIEW/cv.height*ih,
+    0,0,L,L);
+  // overlay the drawn boxes so edges are visible at pixel scale
+  im.boxes.forEach(b=>{ const n=nb(b);
+    lctx.strokeStyle=b.color; lctx.lineWidth=1;
+    lctx.strokeRect((n.x1-fx0)*sc, (n.y1-fy0)*sc, (n.x2-n.x1)*sc, (n.y2-n.y1)*sc);
+  });
+  // crosshair dead-centre = the exact pixel under the cursor
+  lctx.strokeStyle="rgba(143,106,63,.95)"; lctx.lineWidth=1;
+  lctx.beginPath(); lctx.moveTo(L/2,0); lctx.lineTo(L/2,L); lctx.moveTo(0,L/2); lctx.lineTo(L,L/2); lctx.stroke();
+}
+cv.addEventListener("mouseleave", ()=>{ if(!drag){ loupe.style.display="none"; $("hud").style.display="none"; } });
+
+/* ---------------- right list ---------------- */
+function renderList(){
+  const im=cur(); const list=$("boxlist"); list.innerHTML="";
+  $("boxCount").textContent = im? im.boxes.length : 0;
+  if(!im || im.boxes.length===0){
+    list.innerHTML = `<div class="empty">${im?"No boxes yet. Drag on the image to draw one — or hit <b>Auto-detect</b> to seed photo regions.":"Load an image to begin."}</div>`;
+    return;
+  }
+  ordered(im).forEach(({b,d})=>{
+    const x1=Math.min(b.x1,b.x2),x2=Math.max(b.x1,b.x2),y1=Math.min(b.y1,b.y2),y2=Math.max(b.y1,b.y2);
+    const row=document.createElement("div");
+    row.className="boxrow"+(b.id===state.selId?" sel":"")+(d>0?" child":""); row.dataset.id=b.id;
+    row.style.marginLeft=(d*16)+"px";
+    row.innerHTML=(d>0?`<span class="nest">↳</span>`:``)+
+      `<span class="chip" style="background:${b.color}"></span>
+      <input class="lab" value="${escAttr(b.label)}" />
+      <span class="co">(${x1},${y1})·(${x2},${y2})</span>
+      <button class="x" title="delete">×</button>`;
+    row.querySelector(".lab").addEventListener("input", e=>{ b.label=e.target.value; draw(); updateOutput(); });
+    row.querySelector(".lab").addEventListener("focus", ()=>{ state.selId=b.id; draw(); highlightRow(); });
+    row.querySelector(".x").addEventListener("click", ()=>{ im.boxes=im.boxes.filter(z=>z!==b); if(state.selId===b.id)state.selId=null; renderThumbs(); renderList(); draw(); updateOutput(); });
+    row.addEventListener("mousedown", e=>{ if(e.target.classList.contains("lab")||e.target.classList.contains("x"))return; state.selId=b.id; draw(); highlightRow(); });
+    list.appendChild(row);
+  });
+}
+function highlightRow(){ document.querySelectorAll(".boxrow").forEach(r=> r.classList.toggle("sel", +r.dataset.id===state.selId)); }
+function escAttr(s){ return (s||"").replace(/"/g,"&quot;"); }
+
+/* ---------------- output ---------------- */
+function lineFor(b){ const x1=Math.min(b.x1,b.x2),x2=Math.max(b.x1,b.x2),y1=Math.min(b.y1,b.y2),y2=Math.max(b.y1,b.y2);
+  return `${b.label}: (${x1},${y1}) , (${x2},${y2})`; }
+function linesFor(im){ return ordered(im).map(({b,d})=> "    ".repeat(d)+lineFor(b)).join("\n"); }
+function updateOutput(){
+  let txt="";
+  if(state.outMode==="cur"){
+    const im=cur(); if(im) txt = linesFor(im);
+  } else {
+    txt = state.images.map(im=> `===== ${im.name} =====\n` + linesFor(im)).join("\n\n");
+  }
+  $("output").value = txt;
+}
+$("modeCur").addEventListener("click", ()=>{ state.outMode="cur"; segUI(); updateOutput(); });
+$("modeAll").addEventListener("click", ()=>{ state.outMode="all"; segUI(); updateOutput(); });
+function segUI(){ $("modeCur").classList.toggle("on",state.outMode==="cur"); $("modeAll").classList.toggle("on",state.outMode==="all"); }
+$("btnCopy").addEventListener("click", ()=>{
+  const ta=$("output"); ta.select(); navigator.clipboard.writeText(ta.value).then(()=>{
+    const b=$("btnCopy"); const o=b.textContent; b.textContent="Copied ✓"; setTimeout(()=>b.textContent=o,1100);
+  }).catch(()=>{ document.execCommand("copy"); });
+});
+
+/* ---------------- keyboard ---------------- */
+window.addEventListener("keydown", e=>{
+  if(/INPUT|TEXTAREA/.test(document.activeElement.tagName)) return;
+  if(e.key==="d"||e.key==="D"){ setMode(state.mode==="draw"?"select":"draw"); return; }
+  if(e.key==="v"||e.key==="V"){ setMode("select"); return; }
+  const im=cur(); if(!im) return; const b=im.boxes.find(x=>x.id===state.selId);
+  if((e.key==="Delete"||e.key==="Backspace") && b){ im.boxes=im.boxes.filter(z=>z!==b); state.selId=null; e.preventDefault(); renderThumbs(); renderList(); draw(); updateOutput(); return; }
+  if(e.key==="Escape"){ state.selId=null; setMode("select"); draw(); renderList(); return; }
+  if(b && e.key.startsWith("Arrow")){
+    const step=e.shiftKey?10:1; let dx=0,dy=0;
+    if(e.key==="ArrowLeft")dx=-step; if(e.key==="ArrowRight")dx=step; if(e.key==="ArrowUp")dy=-step; if(e.key==="ArrowDown")dy=step;
+    b.x1+=dx;b.x2+=dx;b.y1+=dy;b.y2+=dy; e.preventDefault(); draw(); renderList(); updateOutput();
+  }
+});
+
+/* ---------------- tool mode (select / draw-in) ---------------- */
+function setMode(m){
+  state.mode=m;
+  $("toolSelect").classList.toggle("on", m==="select");
+  $("toolDraw").classList.toggle("on", m==="draw");
+  cv.style.cursor = m==="draw" ? "crosshair" : "default";
+}
+$("toolSelect").addEventListener("click", ()=> setMode("select"));
+$("toolDraw").addEventListener("click", ()=> setMode("draw"));
+
+/* ---------------- clear ---------------- */
+$("btnClearBoxes").addEventListener("click", ()=>{ const im=cur(); if(!im)return; if(im.boxes.length&&!confirm("Clear all boxes on this image?"))return; im.boxes=[]; state.selId=null; renderThumbs(); renderList(); draw(); updateOutput(); });
+
+/* ---------------- auto-detect (photo regions) ---------------- */
+$("btnAuto").addEventListener("click", ()=>{
+  const im=cur(); if(!im) return;
+  const W=cv.width,H=cv.height;
+  const off=document.createElement("canvas"); off.width=W; off.height=H;
+  const o=off.getContext("2d"); o.drawImage(im.img,0,0,W,H);
+  const d=o.getImageData(0,0,W,H).data;
+  const step=2;                                   // downsample for speed
+  const gw=Math.ceil(W/step), gh=Math.ceil(H/step);
+  const mask=new Uint8Array(gw*gh);
+  for(let gy=0,idx=0;gy<gh;gy++)for(let gx=0;gx<gw;gx++,idx++){
+    const px=gx*step, py=gy*step, p=(py*W+px)*4;
+    const r=d[p],g=d[p+1],b=d[p+2];
+    const gray=0.299*r+0.587*g+0.114*b, sat=Math.max(r,g,b)-Math.min(r,g,b);
+    mask[idx]= ((gray>60&&gray<232)||sat>22)?1:0;   // "photographic" pixel
+  }
+  // BFS connected components
+  const seen=new Uint8Array(gw*gh); const comps=[];
+  const stack=[];
+  for(let s=0;s<mask.length;s++){
+    if(!mask[s]||seen[s])continue;
+    let minx=gw,miny=gh,maxx=0,maxy=0,area=0; stack.length=0; stack.push(s); seen[s]=1;
+    while(stack.length){
+      const c=stack.pop(); const cx=c%gw, cy=(c/gw)|0; area++;
+      if(cx<minx)minx=cx; if(cx>maxx)maxx=cx; if(cy<miny)miny=cy; if(cy>maxy)maxy=cy;
+      const nb=[c-1,c+1,c-gw,c+gw];
+      if(cx>0&&mask[c-1]&&!seen[c-1]){seen[c-1]=1;stack.push(c-1);}
+      if(cx<gw-1&&mask[c+1]&&!seen[c+1]){seen[c+1]=1;stack.push(c+1);}
+      if(cy>0&&mask[c-gw]&&!seen[c-gw]){seen[c-gw]=1;stack.push(c-gw);}
+      if(cy<gh-1&&mask[c+gw]&&!seen[c+gw]){seen[c+gw]=1;stack.push(c+gw);}
+    }
+    const bw=(maxx-minx+1),bh=(maxy-miny+1);
+    const fill=area/(bw*bh);
+    if(area> (1500/(step*step)) && fill>0.55 && bw*step>50 && bh*step>50){
+      comps.push({x1:minx*step,y1:miny*step,x2:maxx*step,y2:maxy*step,area});
+    }
+  }
+  comps.sort((a,b)=>(a.y1-b.y1)||(a.x1-b.x1));
+  if(!comps.length){ flash("No photo regions found — draw manually."); return; }
+  comps.forEach((c,i)=> im.boxes.push({id:uid++, label:"Picture "+(im.boxes.length+1), color:PALETTE[nextColor++%PALETTE.length], x1:c.x1,y1:c.y1,x2:c.x2,y2:c.y2}));
+  renderThumbs(); renderList(); draw(); updateOutput();
+  flash(comps.length+" region"+(comps.length>1?"s":"")+" detected — adjust & label.");
+});
+function flash(msg){ const h=$("hud"); h.style.display="block"; h.textContent=msg; setTimeout(()=>{ if(!drag) h.style.display="none"; },1800); }
+
+/* ---------------- save / open project ---------------- */
+$("btnSave").addEventListener("click", ()=>{
+  const data={targetW:state.targetW,targetH:state.targetH,images:state.images.map(im=>({name:im.name,dataURL:im.dataURL,boxes:im.boxes.map(b=>({label:b.label,color:b.color,x1:b.x1,y1:b.y1,x2:b.x2,y2:b.y2}))}))};
+  const blob=new Blob([JSON.stringify(data)],{type:"application/json"});
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="measure-project.json"; a.click();
+});
+$("btnImport").addEventListener("click", ()=> $("projfile").click());
+$("projfile").addEventListener("change", e=>{
+  const f=e.target.files[0]; if(!f)return; const r=new FileReader();
+  r.onload=ev=>{ try{
+    const data=JSON.parse(ev.target.result);
+    state.targetW=data.targetW||1109; state.targetH=data.targetH||691;
+    $("fw").value=state.targetW; $("fh").value=state.targetH; cv.width=state.targetW; cv.height=state.targetH;
+    state.images=[]; let pending=data.images.length;
+    if(!pending){ selectImage(-1); return; }
+    data.images.forEach(rec=>{ const img=new Image(); img.onload=()=>{
+      state.images.push({name:rec.name,dataURL:rec.dataURL,img,boxes:rec.boxes.map(b=>({id:uid++,...b}))});
+      pending--; if(pending===0){ state.active=0; renderThumbs(); selectImage(0); }
+    }; img.src=rec.dataURL; });
+  }catch(err){ alert("Could not read project file."); } };
+  r.readAsText(f); e.target.value="";
+});
+
+/* init */
+segUI(); applyZoom(); draw(); renderList(); updateOutput();
+})();
+</script>
+</body>
+</html>

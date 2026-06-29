@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LA GOLD — A Glimpse of the Glow-Up</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Jost:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --paper:#fdfcfa;
+      --ink:#1b1815;
+      --ink-soft:#6b6358;
+      --gold-deep:#8f6a3f;
+      --serif:"Cormorant Garamond",Georgia,serif;
+      --display:"Bodoni Moda","Didot",Georgia,serif;
+      --label:"Jost","Helvetica Neue",Arial,sans-serif;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{background:#e9e3da;color:var(--ink);font-family:var(--serif);min-height:100vh;display:flex;align-items:flex-start;justify-content:center;}
+
+    /* Proportional canvas: 1109 x 691 */
+    .stage{
+      position:relative;
+      width:100%;
+      max-width:1109px;
+      aspect-ratio:1109 / 691;
+      background:var(--paper);
+      container-type:inline-size;
+      overflow:hidden;
+    }
+
+    /* ---- Photo placeholders ---- */
+    .ph{
+      position:absolute;
+      display:flex; align-items:center; justify-content:center;
+      background:repeating-linear-gradient(135deg,#ece5da 0 14px,#e6ddcf 14px 28px);
+      border:1px dashed #bcae97; color:#9a8c74; overflow:hidden;
+    }
+    .ph span{
+      font-family:var(--label); text-transform:uppercase; letter-spacing:0.2em;
+      font-size:0.85cqw; text-align:center; padding:0.6em;
+    }
+    .ph span::before{ content:"⬡"; display:block; font-size:1.6cqw; margin-bottom:0.4em; color:#c2b49b; }
+
+    /* lower half of picture : (507,0) , (804,228) */
+    .pic-top{ left:45.717%; top:0%; width:26.781%; height:32.996%; }
+    /* big picture : (0,242) , (799,691) */
+    .pic-big{ left:0%; top:35.022%; width:72.047%; height:64.978%; }
+
+    /* ---- title "A Glimpse of the Glow-Up" : (858,46) , (1064,72) ---- */
+    .title{
+      position:absolute; left:77.367%; top:6.657%;
+      font-family:var(--display); font-weight:500; color:var(--ink);
+      font-size:1.55cqw; line-height:1; letter-spacing:0.005em; white-space:nowrap;
+    }
+    /* ---- sub title : (877,78) , (1043,92) ---- */
+    .subtitle{
+      position:absolute; left:79.08%; top:11.288%;
+      font-family:var(--serif); font-style:italic; color:var(--ink-soft);
+      font-size:0.88cqw; line-height:1; letter-spacing:0.01em; white-space:nowrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="stage">
+
+    <div class="ph pic-top"><span>Studio Detail</span></div>
+    <div class="ph pic-big"><span>Glow Group</span></div>
+
+    <h2 class="title">A Glimpse of the Glow-Up</h2>
+    <p class="subtitle">See how we bring our clients' hair dreams to life</p>
+
+  </div>
+</body>
+</html>

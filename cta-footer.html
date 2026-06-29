@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LA GOLD — Ready for Your Transformation?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Jost:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --paper:#fdfcfa;
+      --ink:#1b1815;
+      --ink-soft:#6b6358;
+      --gold-deep:#8f6a3f;
+      --rule:#cfc7b8;
+      --serif:"Cormorant Garamond",Georgia,serif;
+      --display:"Bodoni Moda","Didot",Georgia,serif;
+      --label:"Jost","Helvetica Neue",Arial,sans-serif;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{background:#e9e3da;color:var(--ink);font-family:var(--serif);min-height:100vh;display:flex;align-items:flex-start;justify-content:center;}
+
+    /* Proportional canvas: 1109 x 691 */
+    .stage{
+      position:relative;
+      width:100%;
+      max-width:1109px;
+      aspect-ratio:1109 / 691;
+      background:var(--paper);
+      container-type:inline-size;
+      overflow:hidden;
+    }
+
+    /* ---- title top : (376,65) , (712,96) ---- */
+    .title{
+      position:absolute; left:33.905%; top:8.9%; width:30.298%;
+      text-align:center;
+      font-family:var(--display); font-weight:500;
+      font-size:2.0cqw; line-height:1; letter-spacing:0.005em; color:var(--ink); white-space:nowrap;
+    }
+    /* ---- sub title top : (435,113) , (650,128) ---- */
+    .subtitle{
+      position:absolute; left:39.224%; top:16.064%; width:19.387%;
+      text-align:center;
+      font-family:var(--serif); font-style:italic; color:var(--ink-soft);
+      font-size:1.2cqw; line-height:1; letter-spacing:0.01em; white-space:nowrap;
+    }
+    /* ---- botton : (488,193) , (600,245) ---- */
+    .btn{
+      position:absolute; left:44.003%; top:27.931%; width:10.099%; height:7.525%;
+      display:flex; align-items:center; justify-content:center;
+      border:1px solid #8a8275; border-radius:6cqw;
+      font-family:var(--serif); color:var(--ink); font-size:1.32cqw; letter-spacing:0.02em;
+    }
+    /* ---- line : (37,411) , (1048,418) ---- */
+    .line{
+      position:absolute; left:3.336%; top:59.99%; width:91.163%; height:1px;
+      background:var(--rule);
+    }
+    /* ---- logo : (56,467) , (226,490) ---- */
+    .logo{
+      position:absolute; left:5.050%; top:67.583%; width:15.329%;
+      font-family:var(--display); font-weight:500; color:var(--ink);
+      font-size:2.82cqw; letter-spacing:0.18em; line-height:1; white-space:nowrap;
+    }
+
+    /* ---- text down (footer) : (372,428) , (776,612) ---- */
+    .footer{
+      position:absolute; left:33.544%; top:61.939%; width:36.429%; height:26.628%;
+      font-family:var(--serif); color:var(--ink-soft); font-size:1.0cqw; line-height:1.34;
+    }
+    .footer .blk{ position:absolute; }
+    .footer a{ color:inherit; text-decoration:none; }
+    .footer .b-addr{ left:0; top:0; white-space:nowrap; }
+    .footer .b-contact{ left:0; top:42%; white-space:nowrap; }
+    .footer .b-social{ left:45%; top:0; }
+    .footer .b-nav{ left:75%; top:0; }
+    .footer .b-legal{ left:75%; top:67%; white-space:nowrap; }
+    .footer .cur{ text-decoration:underline; text-underline-offset:2px; }
+  </style>
+</head>
+<body>
+  <div class="stage">
+
+    <!-- CTA -->
+    <h2 class="title">Ready for Your Transformation?</h2>
+    <p class="subtitle">Let's create the hair you've always envisioned.</p>
+    <div class="btn">Schedule Now</div>
+
+    <!-- divider -->
+    <div class="line"></div>
+
+    <!-- logo -->
+    <div class="logo">LA&nbsp;GOLD</div>
+
+    <!-- footer columns -->
+    <div class="footer">
+      <div class="blk b-addr">500 Terry Francine St<br>San Francisco, CA 94158</div>
+      <div class="blk b-contact">123-456-7890<br>info@mysite.com</div>
+      <div class="blk b-social">Instagram<br>Facebook<br>Pinterest</div>
+      <div class="blk b-nav"><a class="cur" href="#">Home</a><br>About<br>Gallery<br>Contact</div>
+      <div class="blk b-legal">Terms &amp; Conditions<br>Privacy Policy<br>Refund Policy<br>Accessibility Statement</div>
+    </div>
+
+  </div>
+</body>
+</html>

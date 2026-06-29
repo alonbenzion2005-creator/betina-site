@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LA GOLD — Find Your Perfect Match</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Jost:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --paper:#fdfcfa;
+      --ink:#1b1815;
+      --ink-soft:#6b6358;
+      --gold-deep:#8f6a3f;
+      --rule:#e6ded0;
+      --serif:"Cormorant Garamond",Georgia,serif;
+      --display:"Bodoni Moda","Didot",Georgia,serif;
+      --label:"Jost","Helvetica Neue",Arial,sans-serif;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{background:#e9e3da;color:var(--ink);font-family:var(--serif);min-height:100vh;display:flex;align-items:flex-start;justify-content:center;}
+
+    /* Proportional canvas: 1109 x 691 */
+    .stage{
+      position:relative;
+      width:100%;
+      max-width:1109px;
+      aspect-ratio:1109 / 691;
+      background:var(--paper);
+      container-type:inline-size;
+      overflow:hidden;
+    }
+
+    /* ---- top title : (492,28) , (723,47) ---- */
+    .title{
+      position:absolute; left:39.78%; top:4.052%; width:30%;
+      text-align:center;
+      font-family:var(--display); font-weight:500;
+      font-size:1.85cqw; line-height:1; letter-spacing:0.005em; color:var(--ink); white-space:nowrap;
+    }
+    /* ---- sub titler : (465,58) , (751,70) ---- */
+    .subtitle{
+      position:absolute; left:41.929%; top:8.394%; width:25.789%;
+      text-align:center;
+      font-family:var(--serif); font-style:italic; color:var(--ink-soft);
+      font-size:1.07cqw; line-height:1; letter-spacing:0.01em; white-space:nowrap;
+    }
+
+    /* ---- manu (feature list) : (108,142) , (466,626) ---- */
+    .menu{
+      position:absolute; left:9.738%; top:20.550%; width:32.282%; height:70.043%;
+      display:flex; flex-direction:column;
+    }
+    .item{
+      flex:1;
+    }
+    .item + .item{ border-top:1px solid var(--rule); padding-top:1.5cqw; }
+    .item h3{
+      font-family:var(--serif); font-weight:500; color:var(--ink);
+      font-size:1.62cqw; line-height:1; letter-spacing:0.005em;
+    }
+    .item p{
+      font-family:var(--serif); color:var(--ink-soft);
+      font-size:0.89cqw; line-height:1; margin-top:0.95cqw; white-space:nowrap;
+    }
+
+    /* ---- Photo placeholder ("top half of a picture") : (464,475) , (772,691) ---- */
+    .ph{
+      position:absolute;
+      display:flex; align-items:center; justify-content:center;
+      background:repeating-linear-gradient(135deg,#ece5da 0 14px,#e6ddcf 14px 28px);
+      border:1px dashed #bcae97; color:#9a8c74; overflow:hidden;
+    }
+    .ph span{
+      font-family:var(--label); text-transform:uppercase; letter-spacing:0.2em;
+      font-size:0.85cqw; text-align:center; padding:0.6em;
+    }
+    .ph span::before{ content:"⬡"; display:block; font-size:1.6cqw; margin-bottom:0.4em; color:#c2b49b; }
+
+    .pic{ left:41.840%; top:68.741%; width:27.773%; height:31.259%; }
+  </style>
+</head>
+<body>
+  <div class="stage">
+
+    <h2 class="title">Find Your Perfect Match</h2>
+    <p class="subtitle">We offer a curated selection of premium methods for flawless results.</p>
+
+    <div class="menu">
+      <div class="item">
+        <h3>DHA Technology</h3>
+        <p>Dihydroxyacetone creates the bronzing effect. Applied with a spray gun; rinsed after 2–10 hrs.</p>
+      </div>
+      <div class="item">
+        <h3>No UV Damage</h3>
+        <p>Natural-looking bronze without UV radiation or skin aging.</p>
+      </div>
+      <div class="item">
+        <h3>Luxury Skincare</h3>
+        <p>Natural ingredients — tested, gentle, effective.</p>
+      </div>
+      <div class="item">
+        <h3>Hyaluron &amp; Antioxidants</h3>
+        <p>Radiant, hydrated, even complexion.</p>
+      </div>
+      <div class="item">
+        <h3>All Skin Types</h3>
+        <p>Dermatologically tested for everyone.</p>
+      </div>
+      <div class="item">
+        <h3>Lasts 7–9 Days</h3>
+        <p>Tan develops gradually. Purely cosmetic — no UV protection.</p>
+      </div>
+    </div>
+
+    <div class="ph pic"><span>Bronzed Detail</span></div>
+
+  </div>
+</body>
+</html>

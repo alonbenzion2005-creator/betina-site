@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LA GOLD — Pricing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Jost:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --paper:#fdfcfa;
+      --ink:#1b1815;
+      --ink-soft:#6b6358;
+      --gold-deep:#8f6a3f;
+      --rule:#d8cfc0;
+      --serif:"Cormorant Garamond",Georgia,serif;
+      --display:"Bodoni Moda","Didot",Georgia,serif;
+      --label:"Jost","Helvetica Neue",Arial,sans-serif;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{background:#e9e3da;color:var(--ink);font-family:var(--serif);min-height:100vh;display:flex;align-items:flex-start;justify-content:center;}
+
+    /* Proportional canvas: 1109 x 691 */
+    .stage{
+      position:relative;
+      width:100%;
+      max-width:1109px;
+      aspect-ratio:1109 / 691;
+      background:var(--paper);
+      container-type:inline-size;
+      overflow:hidden;
+    }
+
+    /* ---- top title : (492,28) , (723,47) ---- */
+    .title{
+      position:absolute; left:39.78%; top:4.052%; width:30%;
+      text-align:center;
+      font-family:var(--display); font-weight:500;
+      font-size:1.85cqw; line-height:1; letter-spacing:0.005em; color:var(--ink); white-space:nowrap;
+    }
+    /* ---- sub titler : (465,58) , (751,70) ---- */
+    .subtitle{
+      position:absolute; left:41.929%; top:8.394%; width:25.789%;
+      text-align:center;
+      font-family:var(--serif); font-style:italic; color:var(--ink-soft);
+      font-size:1.07cqw; line-height:1; letter-spacing:0.01em; white-space:nowrap;
+    }
+
+    /* ---- manu (price list) : (73,145) , (433,447) ---- */
+    .menu{
+      position:absolute; left:6.583%; top:20.984%; width:32.462%; height:43.706%;
+      display:flex; flex-direction:column;
+    }
+    .mitem{
+      flex:1; position:relative;
+      border-top:1px dashed var(--rule);
+      padding-top:0.7cqw;
+    }
+    .mitem:first-child{ border-top:0; padding-top:0; }
+    .mitem .name{
+      font-family:var(--serif); color:var(--ink);
+      font-size:1.18cqw; line-height:1; letter-spacing:0.005em;
+    }
+    .mitem .sub{
+      font-family:var(--serif); color:#a99e8c;
+      font-size:0.82cqw; line-height:1; margin-top:0.55cqw;
+    }
+    .mitem .price{
+      position:absolute; right:0; top:0.7cqw;
+      font-family:var(--serif); color:var(--ink);
+      font-size:1.18cqw; line-height:1; letter-spacing:0.01em;
+    }
+    .mitem:first-child .price{ top:0; }
+
+    /* ---- Photo placeholder "Picture 2" : (486,140) , (858,468) ---- */
+    .ph{
+      position:absolute;
+      display:flex; align-items:center; justify-content:center;
+      background:repeating-linear-gradient(135deg,#ece5da 0 14px,#e6ddcf 14px 28px);
+      border:1px dashed #bcae97; color:#9a8c74; overflow:hidden;
+    }
+    .ph span{
+      font-family:var(--label); text-transform:uppercase; letter-spacing:0.2em;
+      font-size:0.85cqw; text-align:center; padding:0.6em;
+    }
+    .ph span::before{ content:"⬡"; display:block; font-size:1.6cqw; margin-bottom:0.4em; color:#c2b49b; }
+
+    .pic2{ left:43.823%; top:20.260%; width:33.543%; height:47.467%; }
+  </style>
+</head>
+<body>
+  <div class="stage">
+
+    <!-- top header -->
+    <h2 class="title">Find Your Perfect Match</h2>
+    <p class="subtitle">We offer a curated selection of premium methods for flawless results.</p>
+
+    <!-- manu : price list -->
+    <div class="menu">
+      <div class="mitem">
+        <div class="name">Spraytan, full body custom made</div>
+        <div class="sub">10 min.</div>
+        <div class="price">70 €</div>
+      </div>
+      <div class="mitem">
+        <div class="name">add on fragrance drops</div>
+        <div class="sub">5 min.</div>
+        <div class="price">5 €</div>
+      </div>
+      <div class="mitem">
+        <div class="name">pre tanning, PH balancing spray</div>
+        <div class="sub">10 min.</div>
+        <div class="price">15 €</div>
+      </div>
+      <div class="mitem">
+        <div class="name">post tanning hydration setting spray</div>
+        <div class="sub">10 min.</div>
+        <div class="price">15 €</div>
+      </div>
+      <div class="mitem">
+        <div class="name">package: pre and post spray</div>
+        <div class="sub">20 min.</div>
+        <div class="price">20 €</div>
+      </div>
+      <div class="mitem">
+        <div class="name">Gutschein Full Body custommade spraytan</div>
+        <div class="price">70 €</div>
+      </div>
+    </div>
+
+    <!-- Picture 2 -->
+    <div class="ph pic2"><span>Custom Glow</span></div>
+
+  </div>
+</body>
+</html>

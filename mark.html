@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LA GOLD — Site Marker</title>
+<style>
+  :root{ --bg:#11100e; --pane:#1c1a17; --line:#322e29; --gold:#caa971; --txt:#efe9df; --soft:#9a9286; }
+  *{box-sizing:border-box;}
+  html,body{margin:0;background:#cfc7bb;color:var(--txt);font-family:"Jost","Helvetica Neue",Arial,sans-serif;}
+  /* the site, rendered at a true 1109 width so marks map 1:1 to frame coords */
+  #wrap{ position:relative; width:1109px; margin:24px auto 80px; box-shadow:0 8px 40px rgba(0,0,0,.25); }
+  #site{ width:1109px; border:0; display:block; background:#fff; }
+  #layer{ position:absolute; left:0; top:0; width:1109px; height:0; cursor:crosshair; }
+  .mk{ position:absolute; border:1.5px solid #d23b3b; background:rgba(210,59,59,.10); box-sizing:border-box; }
+  .mk.pin{ width:14px;height:14px;border-radius:50%;background:#d23b3b;border:2px solid #fff; transform:translate(-50%,-50%); }
+  .mk .badge{ position:absolute; left:-1.5px; top:-19px; background:#d23b3b; color:#fff; font-size:11px;
+    font-weight:600; padding:1px 6px; border-radius:3px 3px 3px 0; white-space:nowrap; }
+  .mk.pin .badge{ left:50%; top:-26px; transform:translateX(-50%); border-radius:3px; }
+
+  /* on-canvas sticky note attached to each mark */
+  .note{ position:absolute; z-index:6; width:194px; background:#fff7e6; border:1px solid #d9b873;
+    border-radius:7px; box-shadow:0 4px 14px rgba(0,0,0,.20); padding:5px 6px; font-family:inherit; }
+  .note::before{ content:""; position:absolute; left:-7px; top:10px; width:0;height:0;
+    border:6px solid transparent; border-right-color:#d9b873; }
+  .note .nhd{ display:flex; justify-content:space-between; align-items:center; margin-bottom:2px; cursor:move; user-select:none; }
+  .note .nnum{ background:#d23b3b; color:#fff; font-size:10px; font-weight:700; border-radius:4px; padding:0 5px; }
+  .note .nctl{ display:flex; gap:7px; align-items:center; }
+  .note .nmin, .note .nx{ cursor:pointer; color:#b98f44; font-size:15px; line-height:1; }
+  .note textarea{ width:100%; border:0; background:transparent; font:inherit; font-size:12px; color:#3a3329;
+    resize:none; outline:none; min-height:34px; line-height:1.35; }
+  .note textarea::placeholder{ color:#c0a978; }
+  .note.min{ width:auto; opacity:.85; }
+  .note.min textarea{ display:none; }
+  .note.min .nhd{ margin-bottom:0; }
+
+  /* panel slide + toggle */
+  #panel{ transition:transform .2s ease; }
+  #panel.hidden{ transform:translateX(330px); }
+  #ptoggle{ position:fixed; top:16px; right:18px; z-index:40; width:30px; height:30px; border-radius:8px;
+    border:1px solid var(--line); background:var(--gold); color:#1a1712; cursor:pointer; font-weight:800; font-size:14px; }
+
+  /* toolbar */
+  #bar{ position:fixed; left:14px; top:14px; z-index:30; background:var(--pane); border:1px solid var(--line);
+    border-radius:12px; padding:10px; display:flex; flex-direction:column; gap:8px; width:150px; }
+  #bar h1{ font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:var(--gold); margin:2px 2px 4px; font-weight:500;}
+  #bar button{ font:inherit; font-size:12px; letter-spacing:.06em; padding:8px; border-radius:8px; cursor:pointer;
+    border:1px solid var(--line); background:#262320; color:var(--txt); text-align:left; }
+  #bar button.on{ background:var(--gold); color:#1a1712; border-color:var(--gold); font-weight:600; }
+  #bar button.ghost{ background:transparent; color:var(--soft); }
+  #bar .hint{ font-size:10.5px; line-height:1.5; color:var(--soft); margin-top:2px; }
+
+  /* panel */
+  #panel{ position:fixed; right:14px; top:14px; bottom:14px; z-index:30; width:300px; background:var(--pane);
+    border:1px solid var(--line); border-radius:12px; display:flex; flex-direction:column; overflow:hidden; }
+  #panel h2{ font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--gold); margin:0; padding:12px 12px 8px; font-weight:500;}
+  #list{ flex:1; overflow:auto; padding:0 10px; }
+  .row{ border:1px solid var(--line); border-radius:9px; padding:8px; margin-bottom:8px; background:#211e1b; }
+  .row .hd{ display:flex; align-items:center; gap:6px; margin-bottom:6px; }
+  .row .num{ background:#d23b3b; color:#fff; font-size:11px; font-weight:700; border-radius:4px; padding:1px 6px; }
+  .row .loc{ font-size:11px; color:var(--soft); flex:1; line-height:1.3; }
+  .row .del{ cursor:pointer; color:var(--soft); border:0; background:none; font-size:15px; line-height:1; padding:0 2px;}
+  .row input{ width:100%; font:inherit; font-size:12px; padding:6px 7px; border-radius:6px; border:1px solid var(--line);
+    background:#15130f; color:var(--txt); }
+  #out{ padding:10px; border-top:1px solid var(--line); display:flex; flex-direction:column; gap:8px; }
+  #out textarea{ width:100%; height:96px; resize:vertical; font-family:ui-monospace,Menlo,monospace; font-size:11px;
+    background:#15130f; color:#d8d0c4; border:1px solid var(--line); border-radius:8px; padding:8px; }
+  #out .acts{ display:flex; gap:8px; }
+  #out button{ flex:1; font:inherit; font-size:12px; padding:9px; border-radius:8px; cursor:pointer; border:1px solid var(--line); background:#262320; color:var(--txt);}
+  #out button#copy{ background:var(--gold); color:#1a1712; border-color:var(--gold); font-weight:600; }
+  #empty{ color:var(--soft); font-size:12px; padding:8px; line-height:1.5; }
+</style>
+</head>
+<body>
+  <div id="bar">
+    <h1>Site Marker</h1>
+    <button id="mBox" class="on">▭ &nbsp;Box</button>
+    <button id="mPin">◉ &nbsp;Pin</button>
+    <button id="clear" class="ghost">Clear all</button>
+    <div class="hint">Drag on the site to mark a box, or click in Pin mode. Add a note, then Copy and paste to Claude.</div>
+  </div>
+
+  <button id="ptoggle" title="Hide / show panel">▸</button>
+  <div id="panel">
+    <h2>Marks</h2>
+    <div id="list"><div id="empty">No marks yet.<br>Drag a box on the site →</div></div>
+    <div id="out">
+      <textarea id="export" readonly placeholder="Export appears here…"></textarea>
+      <div class="acts">
+        <button id="refresh">Rebuild</button>
+        <button id="copy">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="wrap">
+    <iframe id="site" src="site.html"></iframe>
+    <div id="layer"></div>
+  </div>
+
+<script>
+const NAMES={s1:'Hero',s2:'Reviews',s3:'Methods',s4:'Glimpse',s5:'Shades',s6:'Pricing',s7:'Group',s8:'CTA / Footer'};
+const iframe=document.getElementById('site'), layer=document.getElementById('layer');
+const listEl=document.getElementById('list'), emptyEl=document.getElementById('empty'), exportEl=document.getElementById('export');
+let sections=[], marks=[], mode='box', seq=0;
+
+function fit(){ try{ const h=iframe.contentDocument.body.scrollHeight; iframe.style.height=h+'px'; layer.style.height=h+'px'; }catch(e){} }
+iframe.addEventListener('load',()=>{
+  const doc=iframe.contentDocument;
+  fit(); setTimeout(fit,400); setTimeout(fit,1200);   // let fonts/layout settle
+  sections=[...doc.querySelectorAll('.screen,.connector')].map(el=>{
+    const stage=el.querySelector('.stage');
+    return { id:el.id, screen:el.classList.contains('screen'),
+      top:el.offsetTop, height:el.offsetHeight,
+      sLeft:stage?stage.offsetLeft:0, sTop:stage?stage.offsetTop:el.offsetTop,
+      sW:stage?stage.offsetWidth:1109, sH:stage?stage.offsetHeight:el.offsetHeight,
+      name: el.dataset.name || NAMES[el.id] || el.id };
+  });
+});
+window.addEventListener('resize',fit);
+document.getElementById('refresh').addEventListener('click',()=>{fit();render();});
+
+// map a content point -> {section, fx, fy}
+function mapPt(mx,my){
+  for(const s of sections){
+    const top=s.screen?s.sTop:s.top, h=s.screen?s.sH:s.height;
+    if(my>=top && my<=top+h+0.5){
+      if(s.screen) return {s, fx:Math.round((mx-s.sLeft)/s.sW*1109), fy:Math.round((my-s.sTop)/s.sH*691)};
+      return {s, fx:Math.round(mx), fy:Math.round(my-s.top)};
+    }
+  }
+  return null;
+}
+function tag(p){ return p? `[${p.s.name} · ${p.s.id}]` : '[?]'; }
+function locText(m){
+  if(m.type==='pin'){ const p=mapPt(m.x,m.y); return `${tag(p)} pin (${p?p.fx:'?'},${p?p.fy:'?'})`; }
+  const a=mapPt(m.x1,m.y1), b=mapPt(m.x2,m.y2);
+  if(a&&b&&a.s===b.s) return `${tag(a)} box (${a.fx},${a.fy})-(${b.fx},${b.fy})`;
+  return `box ${tag(a)} (${a?a.fx:'?'},${a?a.fy:'?'}) → ${tag(b)} (${b?b.fx:'?'},${b?b.fy:'?'})`;
+}
+
+// ---- drawing ----
+let cur=null;
+layer.addEventListener('mousedown',e=>{
+  const r=layer.getBoundingClientRect(); const x=e.clientX-r.left, y=e.clientY-r.top;
+  if(mode==='pin'){ addPin(x,y); return; }
+  cur={x0:x,y0:y, el:document.createElement('div')};
+  cur.el.className='mk'; cur.el.style.left=x+'px'; cur.el.style.top=y+'px'; cur.el.style.width='0px'; cur.el.style.height='0px';
+  layer.appendChild(cur.el); e.preventDefault();
+});
+window.addEventListener('mousemove',e=>{
+  if(!cur) return;
+  const r=layer.getBoundingClientRect(); const x=e.clientX-r.left, y=e.clientY-r.top;
+  const L=Math.min(cur.x0,x),T=Math.min(cur.y0,y),W=Math.abs(x-cur.x0),H=Math.abs(y-cur.y0);
+  Object.assign(cur.el.style,{left:L+'px',top:T+'px',width:W+'px',height:H+'px'});
+});
+window.addEventListener('mouseup',e=>{
+  if(!cur) return;
+  const r=layer.getBoundingClientRect(); const x=e.clientX-r.left, y=e.clientY-r.top;
+  const L=Math.min(cur.x0,x),T=Math.min(cur.y0,y),W=Math.abs(x-cur.x0),H=Math.abs(y-cur.y0);
+  cur.el.remove();
+  if(W<6&&H<6){ addPin(cur.x0,cur.y0); cur=null; return; }   // a click = pin
+  marks.push({type:'box', x1:L,y1:T,x2:L+W,y2:T+H, note:'', el:cur.el, id:++seq});
+  cur.el.style.left=L+'px'; cur.el.style.top=T+'px'; cur.el.style.width=W+'px'; cur.el.style.height=H+'px';
+  layer.appendChild(cur.el);
+  cur=null; render();
+});
+function addPin(x,y){
+  const el=document.createElement('div'); el.className='mk pin'; el.style.left=x+'px'; el.style.top=y+'px';
+  layer.appendChild(el);
+  marks.push({type:'pin', x, y, note:'', el, id:++seq}); render();
+}
+
+// ---- on-canvas note placement ----
+function placeNote(m){
+  if(m.noteFixed) return;                       // user dragged it — leave it put
+  const W=194, bound=layer.clientWidth||1109;
+  if(m.type==='pin'){ m.noteEl.style.left=(m.x+14)+'px'; m.noteEl.style.top=(m.y-8)+'px'; return; }
+  let nx=m.x2+10; if(nx+W>bound) nx=m.x1-W-10; if(nx<0) nx=4;
+  m.noteEl.style.left=nx+'px'; m.noteEl.style.top=m.y1+'px';
+}
+function makeNote(m){
+  const n=document.createElement('div'); n.className='note';
+  n.innerHTML=`<div class="nhd"><span class="nnum"></span><span class="nctl"><span class="nmin" title="collapse">–</span><span class="nx" title="delete">×</span></span></div>`;
+  const ta=document.createElement('textarea'); ta.placeholder='what’s wrong here?'; ta.value=m.note; ta.rows=2;
+  n.appendChild(ta);
+  // typing updates model + panel + export without re-rendering (keeps focus)
+  ta.addEventListener('input',()=>{ m.note=ta.value; if(m.rowNote) m.rowNote.textContent=m.note||'(no note)'; buildExport(); });
+  // don't let clicks/drags inside the note start a new mark
+  ['mousedown','click','dblclick'].forEach(ev=> n.addEventListener(ev,e=>e.stopPropagation()));
+  // collapse / delete
+  const mn=n.querySelector('.nmin');
+  mn.addEventListener('click',e=>{ e.stopPropagation(); const c=n.classList.toggle('min'); mn.textContent=c?'+':'–'; });
+  n.querySelector('.nx').addEventListener('click',e=>{ e.stopPropagation(); removeMark(m); });
+  // drag the note by its header to move it out of the way
+  const hd=n.querySelector('.nhd');
+  hd.addEventListener('mousedown',e=>{
+    if(e.target.classList.contains('nx')||e.target.classList.contains('nmin')) return;
+    e.preventDefault(); e.stopPropagation();
+    const sx=e.clientX, sy=e.clientY, ox=parseFloat(n.style.left)||0, oy=parseFloat(n.style.top)||0;
+    function mv(ev){ n.style.left=(ox+ev.clientX-sx)+'px'; n.style.top=(oy+ev.clientY-sy)+'px'; m.noteFixed=true; }
+    function up(){ document.removeEventListener('mousemove',mv); document.removeEventListener('mouseup',up); }
+    document.addEventListener('mousemove',mv); document.addEventListener('mouseup',up);
+  });
+  m.noteEl=n; m.noteTa=ta;
+  layer.appendChild(n); placeNote(m);
+}
+function removeMark(m){ m.el.remove(); m.noteEl&&m.noteEl.remove(); const i=marks.indexOf(m); if(i>=0) marks.splice(i,1); render(); }
+
+// ---- panel + export ----
+function render(){
+  emptyEl.style.display = marks.length? 'none':'block';
+  listEl.querySelectorAll('.row').forEach(n=>n.remove());
+  marks.forEach((m,i)=>{
+    // badge on the mark
+    m.el.querySelector('.badge')?.remove();
+    const b=document.createElement('div'); b.className='badge'; b.textContent=i+1; m.el.appendChild(b);
+    // floating note (create once)
+    if(!m.noteEl) makeNote(m); else placeNote(m);
+    m.noteEl.querySelector('.nnum').textContent=i+1;
+    // panel row (read-only summary; editing happens on the canvas note)
+    const row=document.createElement('div'); row.className='row';
+    row.innerHTML=`<div class="hd"><span class="num">${i+1}</span><span class="loc">${locText(m)}</span><button class="del">×</button></div><div class="rnote"></div>`;
+    m.rowNote=row.querySelector('.rnote'); m.rowNote.textContent=m.note||'(no note)';
+    m.rowNote.style.cssText='font-size:12px;color:#cdc6ba;line-height:1.4;';
+    row.querySelector('.del').addEventListener('click',()=>removeMark(m));
+    row.querySelector('.loc').addEventListener('click',()=>{ m.noteTa&&m.noteTa.focus(); m.el.scrollIntoView({block:'center'}); });
+    listEl.appendChild(row);
+  });
+  buildExport();
+}
+function buildExport(){
+  if(!marks.length){ exportEl.value=''; return; }
+  const lines=['SITE ANNOTATIONS (frame 1109×691 per section):'];
+  marks.forEach((m,i)=> lines.push(`${i+1}. ${locText(m)} — ${m.note.trim()||'(no note)'}`));
+  exportEl.value=lines.join('\n');
+}
+
+// ---- controls ----
+const bBox=document.getElementById('mBox'), bPin=document.getElementById('mPin');
+bBox.onclick=()=>{mode='box'; bBox.classList.add('on'); bPin.classList.remove('on');};
+bPin.onclick=()=>{mode='pin'; bPin.classList.add('on'); bBox.classList.remove('on');};
+document.getElementById('clear').onclick=()=>{ marks.forEach(m=>{m.el.remove(); m.noteEl&&m.noteEl.remove();}); marks=[]; render(); };
+const ptoggle=document.getElementById('ptoggle'), panel=document.getElementById('panel');
+ptoggle.onclick=()=>{ const h=panel.classList.toggle('hidden'); ptoggle.textContent=h?'◂':'▸'; };
+document.getElementById('copy').onclick=async()=>{
+  buildExport(); exportEl.select();
+  try{ await navigator.clipboard.writeText(exportEl.value); }catch(e){ document.execCommand('copy'); }
+  const btn=document.getElementById('copy'); const t=btn.textContent; btn.textContent='Copied ✓'; setTimeout(()=>btn.textContent=t,1200);
+};
+</script>
+</body>
+</html>
