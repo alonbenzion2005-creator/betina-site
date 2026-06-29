@@ -203,7 +203,7 @@ doc = """<!DOCTYPE html>
 </html>
 """ % (SHARED_HEAD, "\n\n".join(sections_css), JOIN_OVERRIDES, body_html)
 
-(HERE / "site.html").write_text(doc, encoding="utf-8")
-print("Wrote site.html  (%d bytes)" % len(doc))
+(HERE / "index.html").write_text(doc, encoding="utf-8")
+print("Wrote index.html  (%d bytes)" % len(doc))
 print("Sections:", ", ".join(sid for sid, _ in SCREENS))
 print("Connectors:", "c1 The Drop-In, c2 The Turn, c3 The Seam, c4 The Reveal, c5 The Ledger, c6 The Gather, c7 The Close")
