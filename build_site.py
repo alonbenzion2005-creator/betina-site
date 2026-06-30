@@ -83,7 +83,8 @@ SEAM = ('  <!-- connector: The Seam (methods ↔ glimpse photo join) -->\n'
 REVEAL = ('  <!-- connector: The Reveal (completes glimpse big photo into colors) -->\n'
           '  <section class="connector" id="c4" data-name="The Reveal">\n'
           '    <div class="cinner" style="height:18cqw">\n'
-          '      <div class="ph" style="left:0%; top:0; width:72.047%; height:11cqw; border-top:0;"><span>Glow Group</span></div>\n'
+          '      <div class="ph" style="left:0%; top:0; width:72.047%; height:11cqw; border:0; '
+          'background-image:url(\'assets/glimpse-group.jpg\'); background-size:cover; background-position:center bottom;"></div>\n'
           '    </div>\n'
           '  </section>')
 
