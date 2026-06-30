@@ -53,4 +53,22 @@ crop("6_1109.png", (486, 140, 372, 328), "pricing-custom.jpg")
 # ---- group (7_1109) ----
 crop("7_1109.png", (0, 23, 1109, 668), "group-squad.jpg")
 
+# ---- high-res originals dropped into Downloads (upgrades over screenshot crops) ----
+DL = pathlib.Path("/Users/alonbenzion/Downloads")
+
+def crop_abs(src_path, box, name, q=92):
+    x, y, w, h = box
+    im = Image.open(src_path).convert("RGB")
+    x2 = min(x + w, im.width); y2 = min(y + h, im.height)
+    im.crop((x, y, x2, y2)).save(OUT / name, quality=q)
+    print("%-22s <- %-32s (%d,%d %dx%d)" % (name, src_path.name, x, y, x2 - x, y2 - y))
+
+# glimpse big group: color hi-res (5472x3648). Box aspect 799/449=1.78 -> full width, bottom-aligned.
+crop_abs(DL / "Everybody looking down color.jpg", (0, 573, 5472, 3075), "glimpse-group.jpg")
+
+# Finny portrait (2962x4698): one tall photo split across the methods/glimpse seam.
+# top band -> methods .pic (aspect 308/216=1.426); lower band continues into glimpse .pic-top (~1.35).
+crop_abs(DL / "Finny bw ( 2 Pages).jpg", (30, 420, 2900, 2034), "methods-bronzed.jpg")
+crop_abs(DL / "Finny bw ( 2 Pages).jpg", (30, 2454, 2900, 2148), "glimpse-studio.jpg")
+
 print("\nDone ->", OUT)
