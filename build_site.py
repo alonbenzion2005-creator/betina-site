@@ -79,14 +79,9 @@ def spacer(cid, name, h):
 SEAM = ('  <!-- connector: The Seam (methods ↔ glimpse photo join) -->\n'
         '  <section class="connector" id="c3" data-name="The Seam"></section>')
 
-# c4 "The Reveal": continue glimpse big photo (cut at its bottom) downward, then space into colors.
-REVEAL = ('  <!-- connector: The Reveal (completes glimpse big photo into colors) -->\n'
-          '  <section class="connector" id="c4" data-name="The Reveal">\n'
-          '    <div class="cinner" style="height:18cqw">\n'
-          '      <div class="ph" style="left:0%; top:0; width:72.047%; height:11cqw; border:0; '
-          'background-image:url(\'assets/glimpse-group.jpg\'); background-size:cover; background-position:center bottom;"></div>\n'
-          '    </div>\n'
-          '  </section>')
+# c4 "The Reveal": glimpse group is now a complete photo, so just space into colors
+# (no continuation strip -- that duplicated the photo's bottom band).
+REVEAL = spacer("c4", "The Reveal", 8)
 
 CONNECTORS = {
     "c1": spacer("c1", "The Drop-In", 7),
