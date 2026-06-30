@@ -71,4 +71,16 @@ crop_abs(DL / "Everybody looking down color.jpg", (0, 573, 5472, 3075), "glimpse
 crop_abs(DL / "Finny bw ( 2 Pages).jpg", (30, 420, 2900, 2034), "methods-bronzed.jpg")
 crop_abs(DL / "Finny bw ( 2 Pages).jpg", (30, 2454, 2900, 2148), "glimpse-studio.jpg")
 
+# home hero portrait (p1, aspect 0.917): Betina seated with the gun (1510x2117)
+crop_abs(DL / "First page me.jpg", (0, 120, 1510, 1646), "home-portrait.jpg")
+# home airbrush detail (p3, aspect 0.711): hand + spray gun (2672x3875)
+crop_abs(DL / "Me with gun.jpg", (0, 58, 2672, 3758), "home-airbrush.jpg")
+# reviews community (aspect 0.812): the three of them, B&W (2344x2532)
+crop_abs(DL / "Me, sienna Finny bw.jpg", (144, 0, 2056, 2532), "reviews-community.jpg")
+# colors portrait (aspect 0.728): single B&W portrait (811x1273)
+crop_abs(DL / "Sienna bw.jpg", (0, 80, 811, 1114), "colors-portrait.jpg")
+# the squad lying in a circle (5472x3648): full-bleed group page + hero thumbnail
+crop_abs(DL / "Lying in circle color.jpg", (0, 175, 5472, 3297), "group-squad.jpg")
+crop_abs(DL / "Lying in circle color.jpg", (702, 0, 4068, 3648), "home-group.jpg")
+
 print("\nDone ->", OUT)
