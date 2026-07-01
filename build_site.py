@@ -203,3 +203,76 @@ doc = """<!DOCTYPE html>
 print("Wrote index.html  (%d bytes)" % len(doc))
 print("Sections:", ", ".join(sid for sid, _ in SCREENS))
 print("Connectors:", "c1 The Drop-In, c2 The Turn, c3 The Seam, c4 The Reveal, c5 The Ledger, c6 The Gather, c7 The Close")
+
+# ======================================================================
+# alive.html -- a livelier *interpretation* of the same site. Same content
+# and layout; adds motion (scroll reveals, a slow Ken-Burns drift on the
+# feature photos, hover warmth). The static index.html stays untouched.
+# ======================================================================
+ALIVE_CSS = """
+    /* ============ alive interpretation (motion layer) ============ */
+    body.alive{ scroll-behavior:smooth; }
+
+    /* scroll reveal: everything fades up as it enters view */
+    body.alive .rv{ opacity:0; transition:opacity 1s ease, transform 1s cubic-bezier(.22,.61,.36,1); }
+    body.alive .rv.up{ transform:translateY(26px); }
+    body.alive .rv.in{ opacity:1; transform:none; }
+
+    /* slow Ken-Burns drift on the big feature photographs (scale>1 so the
+       cover image always overflows its box -- no edge gaps while it moves) */
+    body.alive #s1 .p1, body.alive #s2 .pic1, body.alive #s4 .pic-big,
+    body.alive #s5 .pic1, body.alive #s6 .pic2, body.alive #s7 .pic1{
+      animation: aliveKB 26s ease-in-out infinite alternate;
+    }
+    @keyframes aliveKB{
+      from{ transform:scale(1.05) translate(-1.2%, -1.0%); }
+      to  { transform:scale(1.08) translate(1.2%, 1.2%); }
+    }
+
+    /* hero logo breathes in on load */
+    body.alive #s1 .logo{ animation: aliveRise 1.4s cubic-bezier(.22,.61,.36,1) both; }
+    @keyframes aliveRise{ from{opacity:0; letter-spacing:0.18em;} to{opacity:1;} }
+
+    /* photographs warm slightly on hover */
+    body.alive .ph{ transition:filter .6s ease, box-shadow .6s ease; }
+    body.alive .screen .ph:hover{ filter:brightness(1.05) contrast(1.02);
+      box-shadow:0 12px 44px rgba(27,24,21,.18); }
+
+    @media (prefers-reduced-motion: reduce){
+      body.alive .rv{ opacity:1 !important; transform:none !important; transition:none; }
+      body.alive [style*="background-image"], body.alive .p1, body.alive .pic1,
+      body.alive .pic-big, body.alive .pic2, body.alive .logo{ animation:none !important; }
+    }
+"""
+
+ALIVE_JS = """  <script>
+  (function(){
+    var mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (mq.matches) return;
+    // reveal every stage child + the sticky band title as it scrolls into view
+    var targets = document.querySelectorAll('.screen .stage > *, .bandtitle');
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    targets.forEach(function(el, i){
+      el.classList.add('rv');
+      // photos fade only (they carry the Ken-Burns transform); text also rises
+      var bg = el.style && el.style.backgroundImage;
+      if(!(el.classList.contains('ph') || bg)) el.classList.add('up');
+      // gentle stagger within each screen
+      var stage = el.closest('.stage');
+      var sibs = stage ? Array.prototype.indexOf.call(stage.children, el) : i;
+      el.style.transitionDelay = (Math.max(0, sibs) % 8 * 70) + 'ms';
+      io.observe(el);
+    });
+  })();
+  </script>
+"""
+
+alive_doc = doc.replace("<body>", '<body class="alive">', 1)
+alive_doc = alive_doc.replace("  </style>", ALIVE_CSS + "  </style>", 1)
+alive_doc = alive_doc.replace("</body>", ALIVE_JS + "</body>", 1)
+(HERE / "alive.html").write_text(alive_doc, encoding="utf-8")
+print("Wrote alive.html  (%d bytes)  -- livelier interpretation, index.html untouched" % len(alive_doc))

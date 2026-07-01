@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LA GOLD</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Jost:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --paper:#fdfcfa; --ink:#1b1815; --ink-soft:#6b6358; --gold-deep:#8f6a3f;
+      --rule:#e6ded0; --quote:#2e3a45; --card:#f2efe9;
+      --serif:"Cormorant Garamond",Georgia,serif;
+      --display:"Bodoni Moda","Didot",Georgia,serif;
+      --label:"Jost","Helvetica Neue",Arial,sans-serif;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{ background:var(--paper); color:var(--ink); font-family:var(--serif);
+      min-height:100vh; display:flex; flex-direction:column; align-items:center; }
+
+    /* stacking wrappers */
+    .screen{ width:100%; display:flex; justify-content:center; }
+    .connector{ width:100%; display:flex; justify-content:center; background:var(--paper); }
+    .cinner{ position:relative; width:100%; max-width:1109px; container-type:inline-size; }
+    .connector .ph{
+      position:absolute; display:flex; align-items:center; justify-content:center;
+      background:repeating-linear-gradient(135deg,#ece5da 0 14px,#e6ddcf 14px 28px);
+      border:1px dashed #bcae97; color:#9a8c74; overflow:hidden;
+    }
+    .connector .ph span{ font-family:var(--label); text-transform:uppercase; letter-spacing:0.2em;
+      font-size:0.85cqw; text-align:center; padding:0.6em; }
+    .connector .ph span::before{ content:"\2b21"; display:block; font-size:1.6cqw; margin-bottom:0.4em; color:#c2b49b; }
+
+
+/* ===== s1 (home2.html) ===== */
+#s1{ --paper:#fdfcfa;
+      --ink:#1b1815;
+      --ink-soft:#6b6358;
+      --gold-deep:#8f6a3f;
+      --serif:"Cormorant Garamond",Georgia,serif;
+      --display:"Bodoni Moda","Didot",Georgia,serif;
+      --label:"Jost","Helvetica Neue",Arial,sans-serif; }
+#s1 .stage{ position:relative;
+      width:100%;
+      max-width:1109px;
+      aspect-ratio:1109 / 691;
+      background:var(--paper);
+      container-type:inline-size;
+      overflow:hidden; }
+#s1 .logo{ position:absolute; top:1.3%; left:0; width:100%;
+      text-align:center;
+      font-family:var(--display); font-weight:500;
+      font-size:13.65cqw; line-height:1; letter-spacing:0.06em; text-indent:0.06em; }
+#s1 .nav{ position:absolute; top:25.4%; left:2.80%;
+      display:flex; gap:1.2cqw;
+      font-family:var(--serif);
+      letter-spacing:0.01em; font-size:1.38cqw; color:var(--ink-soft); }
+#s1 .nav a{ position:relative; color:inherit; text-decoration:none; }
+#s1 .nav a:first-child{ text-decoration:underline; text-underline-offset:3px; }
+#s1 .booknow{ position:absolute; left:80.88%; top:24.46%; width:9.02%; height:4.34%;
+      display:flex; align-items:center; justify-content:center;
+      border:1px solid var(--ink); border-radius:40px;
+      font-family:var(--label); text-transform:uppercase; letter-spacing:0.14em;
+      font-size:0.92cqw; color:var(--ink); }
+#s1 .login{ position:absolute; left:91.88%; top:24.8%;
+      display:flex; align-items:center; gap:0.4cqw;
+      font-family:var(--label); text-transform:uppercase; letter-spacing:0.05em;
+      font-size:1.0cqw; color:var(--ink); }
+#s1 .login::before{ content:""; width:1.7cqw; height:1.7cqw; border-radius:50%;
+      border:1px solid var(--ink); display:inline-block;
+      background:radial-gradient(circle at 50% 38%, var(--ink) 0 26%, transparent 27%),
+                 radial-gradient(circle at 50% 95%, var(--ink) 0 42%, transparent 43%); }
+#s1 .heading{ position:absolute; left:61.32%; top:32.6%; width:34.99%; }
+#s1 .heading h1{ font-family:var(--display); font-weight:500;
+      font-size:2.12cqw; line-height:1.2; letter-spacing:0.01em;
+      white-space:nowrap; }
+#s1 .heading h1 .pin{ color:var(--ink); white-space:nowrap; }
+#s1 .heading p{ font-family:var(--serif); font-style:italic; color:var(--ink-soft);
+      font-size:1.78cqw; margin-top:1.3cqw; }
+#s1 .ph{ position:absolute;
+      display:flex; align-items:center; justify-content:center;
+      background:repeating-linear-gradient(135deg,#ece5da 0 14px,#e6ddcf 14px 28px);
+      border:1px dashed #bcae97; color:#9a8c74; overflow:hidden; }
+#s1 .ph span{ font-family:var(--label); text-transform:uppercase; letter-spacing:0.2em;
+      font-size:0.85cqw; text-align:center; padding:0.6em; }
+#s1 .ph span::before{ content:"⬡"; display:block; font-size:1.6cqw; margin-bottom:0.4em; color:#c2b49b; }
+#s1 .p1{ left:2.71%;  top:30.97%; width:38.05%; height:66.57%; }
+#s1 .p2{ left:41.57%; top:31.11%; width:17.76%; height:29.38%; }
+#s1 .p3{ left:55.55%; top:60.35%; width:17.31%; height:39.07%; }
+#s1 .p4{ left:72.95%; top:60.35%; width:27.14%; height:39.07%; }
+#s1 .stage::after{ content:""; position:absolute; left:0; right:0; bottom:0; height:2px;
+      background:linear-gradient(90deg,var(--gold-deep),transparent);
+      opacity:.5; }
+
+/* ===== s2 (reviews.html) ===== */
+#s2{ --paper:#fdfcfa;
+      --ink:#1b1815;
+      --ink-soft:#6b6358;
+      --gold-deep:#8f6a3f;
+      --quote:#2e3a45;
+      --card:#f2efe9;
+      --serif:"Cormorant Garamond",Georgia,serif;
+      --display:"Bodoni Moda","Didot",Georgia,serif;
+      --label:"Jost","Helvetica Neue",Arial,sans-serif; }
+#s2 .stage{ position:relative;
+      width:100%;
+      max-width:1109px;
+      aspect-ratio:1109 / 691;
+      background:var(--paper);
+      container-type:inline-size;
+      overflow:hidden; }
+#s2 .ph{ position:absolute;
+      display:flex; align-items:center; justify-content:center;
+      background:repeating-linear-gradient(135deg,#ece5da 0 14px,#e6ddcf 14px 28px);
+      border:1px dashed #bcae97; color:#9a8c74; overflow:hidden; }
+#s2 .ph span{ font-family:var(--label); text-transform:uppercase; letter-spacing:0.2em;
+      font-size:0.85cqw; text-align:center; padding:0.6em; }
+#s2 .ph span::before{ content:"⬡"; display:block; font-size:1.6cqw; margin-bottom:0.4em; color:#c2b49b; }
+#s2 .pic1{ left:0.271%; top:6.223%; width:47.160%; height:93.198%; }
+#s2 .heading{ position:absolute; left:74.752%; top:4.342%; width:20.83%;
+      font-family:var(--display); font-weight:500;
+      font-size:2.62cqw; line-height:1.02; letter-spacing:0.022em; color:var(--ink); }
+#s2 .card{ position:absolute; left:48.602%; top:62.952%; width:35.618%; height:25.615%;
+      background:var(--card); }
+#s2 .card .quote{ position:absolute; left:5.823%; top:12.994%; width:57.215%;
+      font-family:var(--serif); font-weight:500; color:var(--quote);
+      font-size:1.74cqw; line-height:1.24; }
+#s2 .card .author{ position:absolute; left:6.582%; top:84.746%;
+      font-family:var(--serif); color:#8c8283;
+      font-size:1.36cqw; letter-spacing:0.01em; }
+#s2 .card .arrows{ position:absolute; left:85.063%; top:83.4%; width:14.18%;
+      display:flex; justify-content:space-between; align-items:center;
+      font-family:var(--label); font-weight:300; color:var(--ink);
+      font-size:1.5cqw; }
+
+/* ===== s3 (methods.html) ===== */
+#s3{ --paper:#fdfcfa;
+      --ink:#1b1815;
+      --ink-soft:#6b6358;
+      --gold-deep:#8f6a3f;
+      --rule:#e6ded0;
+      --serif:"Cormorant Garamond",Georgia,serif;
+      --display:"Bodoni Moda","Didot",Georgia,serif;
+      --label:"Jost","Helvetica Neue",Arial,sans-serif; }
+#s3 .stage{ position:relative;
+      width:100%;
+      max-width:1109px;
+      aspect-ratio:1109 / 691;
+      background:var(--paper);
+      container-type:inline-size;
+      overflow:hidden; }
+#s3 .title{ position:absolute; left:39.78%; top:4.052%; width:30%;
+      text-align:center;
+      font-family:var(--display); font-weight:500;
+      font-size:1.85cqw; line-height:1; letter-spacing:0.005em; color:var(--ink); white-space:nowrap; }
+#s3 .subtitle{ position:absolute; left:41.929%; top:8.394%; width:25.789%;
+      text-align:center;
+      font-family:var(--serif); font-style:italic; color:var(--ink-soft);
+      font-size:1.07cqw; line-height:1; letter-spacing:0.01em; white-space:nowrap; }
+#s3 .menu{ position:absolute; left:9.738%; top:20.550%; width:32.282%; height:70.043%;
+      display:flex; flex-direction:column; }
+#s3 .item{ flex:1; }
+#s3 .item + .item{ border-top:1px solid var(--rule); padding-top:1.5cqw; }
+#s3 .item h3{ font-family:var(--serif); font-weight:500; color:var(--ink);
+      font-size:1.62cqw; line-height:1; letter-spacing:0.005em; }
+#s3 .item p{ font-family:var(--serif); color:var(--ink-soft);
+      font-size:0.89cqw; line-height:1; margin-top:0.95cqw; white-space:nowrap; }
+#s3 .ph{ position:absolute;
+      display:flex; align-items:center; justify-content:center;
+      background:repeating-linear-gradient(135deg,#ece5da 0 14px,#e6ddcf 14px 28px);
+      border:1px dashed #bcae97; color:#9a8c74; overflow:hidden; }
+#s3 .ph span{ font-family:var(--label); text-transform:uppercase; letter-spacing:0.2em;
+      font-size:0.85cqw; text-align:center; padding:0.6em; }
+#s3 .ph span::before{ content:"⬡"; display:block; font-size:1.6cqw; margin-bottom:0.4em; color:#c2b49b; }
+#s3 .pic{ left:41.840%; top:68.741%; width:27.773%; height:31.259%; }
+
+/* ===== s4 (glimpse.html) ===== */
+#s4{ --paper:#fdfcfa;
+      --ink:#1b1815;
+      --ink-soft:#6b6358;
+      --gold-deep:#8f6a3f;
+      --serif:"Cormorant Garamond",Georgia,serif;
+      --display:"Bodoni Moda","Didot",Georgia,serif;
+      --label:"Jost","Helvetica Neue",Arial,sans-serif; }
+#s4 .stage{ position:relative;
+      width:100%;
+      max-width:1109px;
+      aspect-ratio:1109 / 691;
+      background:var(--paper);
+      container-type:inline-size;
+      overflow:hidden; }
+#s4 .ph{ position:absolute;
+      display:flex; align-items:center; justify-content:center;
+      background:repeating-linear-gradient(135deg,#ece5da 0 14px,#e6ddcf 14px 28px);
+      border:1px dashed #bcae97; color:#9a8c74; overflow:hidden; }
+#s4 .ph span{ font-family:var(--label); text-transform:uppercase; letter-spacing:0.2em;
+      font-size:0.85cqw; text-align:center; padding:0.6em; }
+#s4 .ph span::before{ content:"⬡"; display:block; font-size:1.6cqw; margin-bottom:0.4em; color:#c2b49b; }
+#s4 .pic-top{ left:45.717%; top:0%; width:26.781%; height:32.996%; }
+#s4 .pic-big{ left:0%; top:35.022%; width:72.047%; height:64.978%; }
+#s4 .title{ position:absolute; left:77.367%; top:6.657%;
+      font-family:var(--display); font-weight:500; color:var(--ink);
+      font-size:1.55cqw; line-height:1; letter-spacing:0.005em; white-space:nowrap; }
+#s4 .subtitle{ position:absolute; left:79.08%; top:11.288%;
+      font-family:var(--serif); font-style:italic; color:var(--ink-soft);
+      font-size:0.88cqw; line-height:1; letter-spacing:0.01em; white-space:nowrap; }
+
+/* ===== s5 (colors.html) ===== */
+#s5{ --paper:#fdfcfa;
+      --ink:#1b1815;
+      --ink-soft:#6b6358;
+      --gold-deep:#8f6a3f;
+      --rule:#ddd4c4;
+      --serif:"Cormorant Garamond",Georgia,serif;
+      --display:"Bodoni Moda","Didot",Georgia,serif;
+      --label:"Jost","Helvetica Neue",Arial,sans-serif; }
+#s5 .stage{ position:relative;
+      width:100%;
+      max-width:1109px;
+      aspect-ratio:1109 / 691;
+      background:var(--paper);
+      container-type:inline-size;
+      overflow:hidden; }
+#s5 .ph{ position:absolute;
+      display:flex; align-items:center; justify-content:center;
+      background:repeating-linear-gradient(135deg,#ece5da 0 14px,#e6ddcf 14px 28px);
+      border:1px dashed #bcae97; color:#9a8c74; overflow:hidden; }
+#s5 .ph span{ font-family:var(--label); text-transform:uppercase; letter-spacing:0.2em;
+      font-size:0.85cqw; text-align:center; padding:0.6em; }
+#s5 .ph span::before{ content:"⬡"; display:block; font-size:1.6cqw; margin-bottom:0.4em; color:#c2b49b; }
+#s5 .title{ position:absolute; left:39.78%; top:4.052%; width:30%;
+      text-align:center;
+      font-family:var(--display); font-weight:500;
+      font-size:1.85cqw; line-height:1; letter-spacing:0.005em; color:var(--ink); white-space:nowrap; }
+#s5 .subtitle{ position:absolute; left:41.929%; top:8.394%; width:25.789%;
+      text-align:center;
+      font-family:var(--serif); font-style:italic; color:var(--ink-soft);
+      font-size:1.07cqw; line-height:1; letter-spacing:0.01em; white-space:nowrap; }
+#s5 .pic1{ left:0.090%; top:15.051%; width:36.249%; height:79.884%; }
+#s5 .textblock{ position:absolute; left:37.511%; top:15.485%; width:61.497%; height:79.595%;
+      overflow:hidden; }
+#s5 .list{ position:absolute; left:0; top:0; width:100%; height:100%;
+      display:flex; flex-direction:column; }
+#s5 .row{ flex:1; position:relative;
+      border-top:1px solid var(--rule);
+      padding-top:1.0cqw; }
+#s5 .row:first-child{ border-top:0; }
+#s5 .rnum{ position:absolute; left:0; top:1.0cqw;
+      font-family:var(--serif); font-feature-settings:"lnum" 1; color:var(--ink-soft);
+      font-size:1.16cqw; letter-spacing:0.04em; }
+#s5 .rname{ position:absolute; left:8.5%; top:0.85cqw;
+      font-family:var(--serif); font-style:italic; font-weight:500; color:var(--ink);
+      font-size:1.66cqw; line-height:1; letter-spacing:0.01em; }
+#s5 .rdesc{ position:absolute; left:8.5%; top:2.9cqw; width:50%;
+      font-family:var(--serif); color:var(--ink-soft);
+      font-size:1.02cqw; line-height:1.22; }
+#s5 .rswatch{ left:78.5%; top:8%; width:18.5%; height:84%;
+      border:1px dashed #bcae97; }
+#s5 .rswatch span{ font-size:0.7cqw; }
+
+/* ===== s6 (pricing.html) ===== */
+#s6{ --paper:#fdfcfa;
+      --ink:#1b1815;
+      --ink-soft:#6b6358;
+      --gold-deep:#8f6a3f;
+      --rule:#d8cfc0;
+      --serif:"Cormorant Garamond",Georgia,serif;
+      --display:"Bodoni Moda","Didot",Georgia,serif;
+      --label:"Jost","Helvetica Neue",Arial,sans-serif; }
+#s6 .stage{ position:relative;
+      width:100%;
+      max-width:1109px;
+      aspect-ratio:1109 / 691;
+      background:var(--paper);
+      container-type:inline-size;
+      overflow:hidden; }
+#s6 .title{ position:absolute; left:39.78%; top:4.052%; width:30%;
+      text-align:center;
+      font-family:var(--display); font-weight:500;
+      font-size:1.85cqw; line-height:1; letter-spacing:0.005em; color:var(--ink); white-space:nowrap; }
+#s6 .subtitle{ position:absolute; left:41.929%; top:8.394%; width:25.789%;
+      text-align:center;
+      font-family:var(--serif); font-style:italic; color:var(--ink-soft);
+      font-size:1.07cqw; line-height:1; letter-spacing:0.01em; white-space:nowrap; }
+#s6 .menu{ position:absolute; left:6.583%; top:20.984%; width:32.462%; height:43.706%;
+      display:flex; flex-direction:column; }
+#s6 .mitem{ flex:1; position:relative;
+      border-top:1px dashed var(--rule);
+      padding-top:0.7cqw; }
+#s6 .mitem:first-child{ border-top:0; padding-top:0; }
+#s6 .mitem .name{ font-family:var(--serif); color:var(--ink);
+      font-size:1.18cqw; line-height:1; letter-spacing:0.005em; }
+#s6 .mitem .sub{ font-family:var(--serif); color:#a99e8c;
+      font-size:0.82cqw; line-height:1; margin-top:0.55cqw; }
+#s6 .mitem .price{ position:absolute; right:0; top:0.7cqw;
+      font-family:var(--serif); color:var(--ink);
+      font-size:1.18cqw; line-height:1; letter-spacing:0.01em; }
+#s6 .mitem:first-child .price{ top:0; }
+#s6 .ph{ position:absolute;
+      display:flex; align-items:center; justify-content:center;
+      background:repeating-linear-gradient(135deg,#ece5da 0 14px,#e6ddcf 14px 28px);
+      border:1px dashed #bcae97; color:#9a8c74; overflow:hidden; }
+#s6 .ph span{ font-family:var(--label); text-transform:uppercase; letter-spacing:0.2em;
+      font-size:0.85cqw; text-align:center; padding:0.6em; }
+#s6 .ph span::before{ content:"⬡"; display:block; font-size:1.6cqw; margin-bottom:0.4em; color:#c2b49b; }
+#s6 .pic2{ left:43.823%; top:20.260%; width:33.543%; height:47.467%; }
+
+/* ===== s7 (group.html) ===== */
+#s7{ --paper:#fdfcfa;
+      --ink:#1b1815;
+      --ink-soft:#6b6358;
+      --gold-deep:#8f6a3f;
+      --serif:"Cormorant Garamond",Georgia,serif;
+      --display:"Bodoni Moda","Didot",Georgia,serif;
+      --label:"Jost","Helvetica Neue",Arial,sans-serif; }
+#s7 .stage{ position:relative;
+      width:100%;
+      max-width:1109px;
+      aspect-ratio:1109 / 691;
+      background:var(--paper);
+      container-type:inline-size;
+      overflow:hidden; }
+#s7 .ph{ position:absolute;
+      display:flex; align-items:center; justify-content:center;
+      background:repeating-linear-gradient(135deg,#ece5da 0 14px,#e6ddcf 14px 28px);
+      border:1px dashed #bcae97; color:#9a8c74; overflow:hidden; }
+#s7 .ph span{ font-family:var(--label); text-transform:uppercase; letter-spacing:0.2em;
+      font-size:0.85cqw; text-align:center; padding:0.6em; }
+#s7 .ph span::before{ content:"⬡"; display:block; font-size:1.6cqw; margin-bottom:0.4em; color:#c2b49b; }
+#s7 .pic1{ left:0%; top:3.329%; width:100%; height:96.671%; }
+
+/* ===== s8 (cta-footer.html) ===== */
+#s8{ --paper:#fdfcfa;
+      --ink:#1b1815;
+      --ink-soft:#6b6358;
+      --gold-deep:#8f6a3f;
+      --rule:#cfc7b8;
+      --serif:"Cormorant Garamond",Georgia,serif;
+      --display:"Bodoni Moda","Didot",Georgia,serif;
+      --label:"Jost","Helvetica Neue",Arial,sans-serif; }
+#s8 .stage{ position:relative;
+      width:100%;
+      max-width:1109px;
+      aspect-ratio:1109 / 691;
+      background:var(--paper);
+      container-type:inline-size;
+      overflow:hidden; }
+#s8 .title{ position:absolute; left:33.905%; top:8.9%; width:30.298%;
+      text-align:center;
+      font-family:var(--display); font-weight:500;
+      font-size:2.0cqw; line-height:1; letter-spacing:0.005em; color:var(--ink); white-space:nowrap; }
+#s8 .subtitle{ position:absolute; left:39.224%; top:16.064%; width:19.387%;
+      text-align:center;
+      font-family:var(--serif); font-style:italic; color:var(--ink-soft);
+      font-size:1.2cqw; line-height:1; letter-spacing:0.01em; white-space:nowrap; }
+#s8 .btn{ position:absolute; left:44.003%; top:27.931%; width:10.099%; height:7.525%;
+      display:flex; align-items:center; justify-content:center;
+      border:1px solid #8a8275; border-radius:6cqw;
+      font-family:var(--serif); color:var(--ink); font-size:1.32cqw; letter-spacing:0.02em; }
+#s8 .line{ position:absolute; left:3.336%; top:59.99%; width:91.163%; height:1px;
+      background:var(--rule); }
+#s8 .logo{ position:absolute; left:5.050%; top:67.583%; width:15.329%;
+      font-family:var(--display); font-weight:500; color:var(--ink);
+      font-size:2.82cqw; letter-spacing:0.18em; line-height:1; white-space:nowrap; }
+#s8 .footer{ position:absolute; left:33.544%; top:61.939%; width:36.429%; height:26.628%;
+      font-family:var(--serif); color:var(--ink-soft); font-size:1.0cqw; line-height:1.34; }
+#s8 .footer .blk{ position:absolute; }
+#s8 .footer a{ color:inherit; text-decoration:none; }
+#s8 .footer .b-addr{ left:0; top:0; white-space:nowrap; }
+#s8 .footer .b-contact{ left:0; top:42%; white-space:nowrap; }
+#s8 .footer .b-social{ left:45%; top:0; }
+#s8 .footer .b-nav{ left:75%; top:0; }
+#s8 .footer .b-legal{ left:75%; top:67%; white-space:nowrap; }
+#s8 .footer .cur{ text-decoration:underline; text-underline-offset:2px; }
+
+    /* ---- photo joins (assembled-site only; original screens untouched) ---- */
+    /* The Seam: methods' top-half photo + glimpse's lower-half photo -> one portrait */
+    #s3 .pic{ border-bottom:0; }
+    #s4 .pic-top{ left:41.840%; width:27.773%; border-top:0; }
+    /* The Reveal: glimpse big photo flows past its bottom edge */
+    #s4 .pic-big{ border-bottom:0; }
+
+    /* ---- Unified sticky section title (methods -> pricing) ---- */
+    /* the three duplicate per-screen titles are suppressed; one sticky title rides the band */
+    #s3 .title, #s3 .subtitle,
+    #s5 .title, #s5 .subtitle,
+    #s6 .title, #s6 .subtitle{ display:none; }
+
+    .titleband{ position:relative; width:100%; display:flex; flex-direction:column; align-items:center; }
+    .bandtitle{
+      position:sticky; top:0; z-index:30;
+      width:100%; max-width:1109px;
+      container-type:inline-size;
+      background:var(--paper);
+      text-align:center;
+      padding-top:2.2cqw; padding-bottom:1.4cqw;
+      border-bottom:1px solid rgba(27,24,21,0.07);
+    }
+    .bandtitle .bt-title{
+      font-family:var(--display); font-weight:500;
+      font-size:1.85cqw; line-height:1; letter-spacing:0.005em; color:var(--ink);
+    }
+    .bandtitle .bt-sub{
+      font-family:var(--serif); font-style:italic; color:var(--ink-soft);
+      font-size:1.07cqw; line-height:1; letter-spacing:0.01em; margin-top:1.0cqw;
+    }
+
+
+    /* ============ alive interpretation (motion layer) ============ */
+    body.alive{ scroll-behavior:smooth; }
+
+    /* scroll reveal: everything fades up as it enters view */
+    body.alive .rv{ opacity:0; transition:opacity 1s ease, transform 1s cubic-bezier(.22,.61,.36,1); }
+    body.alive .rv.up{ transform:translateY(26px); }
+    body.alive .rv.in{ opacity:1; transform:none; }
+
+    /* slow Ken-Burns drift on the big feature photographs (scale>1 so the
+       cover image always overflows its box -- no edge gaps while it moves) */
+    body.alive #s1 .p1, body.alive #s2 .pic1, body.alive #s4 .pic-big,
+    body.alive #s5 .pic1, body.alive #s6 .pic2, body.alive #s7 .pic1{
+      animation: aliveKB 26s ease-in-out infinite alternate;
+    }
+    @keyframes aliveKB{
+      from{ transform:scale(1.05) translate(-1.2%, -1.0%); }
+      to  { transform:scale(1.08) translate(1.2%, 1.2%); }
+    }
+
+    /* hero logo breathes in on load */
+    body.alive #s1 .logo{ animation: aliveRise 1.4s cubic-bezier(.22,.61,.36,1) both; }
+    @keyframes aliveRise{ from{opacity:0; letter-spacing:0.18em;} to{opacity:1;} }
+
+    /* photographs warm slightly on hover */
+    body.alive .ph{ transition:filter .6s ease, box-shadow .6s ease; }
+    body.alive .screen .ph:hover{ filter:brightness(1.05) contrast(1.02);
+      box-shadow:0 12px 44px rgba(27,24,21,.18); }
+
+    @media (prefers-reduced-motion: reduce){
+      body.alive .rv{ opacity:1 !important; transform:none !important; transition:none; }
+      body.alive [style*="background-image"], body.alive .p1, body.alive .pic1,
+      body.alive .pic-big, body.alive .pic2, body.alive .logo{ animation:none !important; }
+    }
+  </style>
+</head>
+<body class="alive">
+  <section class="screen" id="s1">
+<div class="stage">
+    <div class="logo">LA&nbsp;GOLD</div>
+
+    <nav class="nav">
+      <a href="#">Home</a>
+      <a href="#">About</a>
+      <a href="#">Gallery</a>
+      <a href="#">Contact</a>
+    </nav>
+
+    <a class="booknow" href="#">Book Now</a>
+    <a class="login" href="#">Log In</a>
+
+    <div class="heading">
+      <h1>Custom Spray Tan Artist <span class="pin">· Germany</span></h1>
+      <p>The perfect golden glow</p>
+    </div>
+
+    <div class="ph p1" style="background-image:url('assets/home-portrait.jpg');background-size:cover;background-position:center;border:0;"></div>
+    <div class="ph p2" style="background-image:url('assets/home-swatch.jpg');background-size:cover;background-position:center;border:0;"></div>
+    <div class="ph p3" style="background-image:url('assets/home-airbrush.jpg');background-size:cover;background-position:center;border:0;"></div>
+    <div class="ph p4" style="background-image:url('assets/home-group.jpg');background-size:cover;background-position:center;border:0;"></div>
+  </div>
+  </section>
+  <!-- connector: The Drop-In -->
+  <section class="connector" id="c1" data-name="The Drop-In"><div class="cinner" style="height:7cqw"></div></section>
+  <section class="screen" id="s2">
+<div class="stage">
+
+    <!-- Picture 1 -->
+    <div class="ph pic1" style="background-image:url('assets/reviews-community.jpg');background-size:cover;background-position:center;border:0;"></div>
+
+    <!-- Heading -->
+    <h2 class="heading">Words from Our Community</h2>
+
+    <!-- Testimonial card with nested children -->
+    <div class="card">
+      <p class="quote">"The most natural-looking extensions I've ever had. Truly an art form."</p>
+      <div class="author">Kaia Lindstrom</div>
+      <div class="arrows"><span>&larr;</span><span>&rarr;</span></div>
+    </div>
+
+  </div>
+  </section>
+  <!-- connector: The Turn -->
+  <section class="connector" id="c2" data-name="The Turn"><div class="cinner" style="height:7cqw"></div></section>
+  <!-- unified sticky section title: methods -> pricing -->
+  <div class="titleband">
+  <div class="bandtitle">
+    <h2 class="bt-title">Find Your Perfect Match</h2>
+    <p class="bt-sub">We offer a curated selection of premium methods for flawless results.</p>
+  </div>
+  <section class="screen" id="s3">
+<div class="stage">
+
+    <h2 class="title">Find Your Perfect Match</h2>
+    <p class="subtitle">We offer a curated selection of premium methods for flawless results.</p>
+
+    <div class="menu">
+      <div class="item">
+        <h3>DHA Technology</h3>
+        <p>Dihydroxyacetone creates the bronzing effect. Applied with a spray gun; rinsed after 2–10 hrs.</p>
+      </div>
+      <div class="item">
+        <h3>No UV Damage</h3>
+        <p>Natural-looking bronze without UV radiation or skin aging.</p>
+      </div>
+      <div class="item">
+        <h3>Luxury Skincare</h3>
+        <p>Natural ingredients — tested, gentle, effective.</p>
+      </div>
+      <div class="item">
+        <h3>Hyaluron &amp; Antioxidants</h3>
+        <p>Radiant, hydrated, even complexion.</p>
+      </div>
+      <div class="item">
+        <h3>All Skin Types</h3>
+        <p>Dermatologically tested for everyone.</p>
+      </div>
+      <div class="item">
+        <h3>Lasts 7–9 Days</h3>
+        <p>Tan develops gradually. Purely cosmetic — no UV protection.</p>
+      </div>
+    </div>
+
+    <div class="ph pic" style="background-image:url('assets/methods-bronzed.jpg');background-size:cover;background-position:center;border:0;"></div>
+
+  </div>
+  </section>
+  <!-- connector: The Seam (methods ↔ glimpse photo join) -->
+  <section class="connector" id="c3" data-name="The Seam"></section>
+  <section class="screen" id="s4">
+<div class="stage">
+
+    <div class="ph pic-top" style="background-image:url('assets/glimpse-studio.jpg');background-size:cover;background-position:center;border:0;"></div>
+    <div class="ph pic-big" style="background-image:url('assets/glimpse-group.jpg');background-size:cover;background-position:center;border:0;"></div>
+
+    <h2 class="title">A Glimpse of the Glow-Up</h2>
+    <p class="subtitle">See how we bring our clients' hair dreams to life</p>
+
+  </div>
+  </section>
+  <!-- connector: The Reveal -->
+  <section class="connector" id="c4" data-name="The Reveal"><div class="cinner" style="height:8cqw"></div></section>
+  <section class="screen" id="s5">
+<div class="stage">
+
+    <!-- top header -->
+    <h2 class="title">Find Your Perfect Match</h2>
+    <p class="subtitle">We offer a curated selection of premium methods for flawless results.</p>
+
+    <!-- Picture 1 -->
+    <div class="ph pic1" style="background-image:url('assets/colors-portrait.jpg');background-size:cover;background-position:center;border:0;"></div>
+
+    <!-- text block: the shade list -->
+    <div class="textblock">
+      <div class="list">
+
+        <!-- 01 — clipped at top; only its last line shows -->
+        <div class="row r01">
+          <div class="rnum">01</div>
+          <div class="rname">Copper Rouge</div>
+          <div class="rdesc">A fiery red-gold with molten brilliance —
+            confident, rich, and unapologetically radiant.</div>
+          <div class="ph rswatch" style="background-image:url('assets/colors-swatch01.jpg');background-size:cover;background-position:center;border:0;"></div>
+        </div>
+
+        <div class="row">
+          <div class="rnum">02</div>
+          <div class="rname">Champagne Blonde</div>
+          <div class="rdesc">A pale, luminous blonde with creamy warmth —
+            soft, ethereal, and timelessly elegant.</div>
+          <div class="ph rswatch" style="background-image:url('assets/colors-swatch02.jpg');background-size:cover;background-position:center;border:0;"></div>
+        </div>
+
+        <div class="row">
+          <div class="rnum">03</div>
+          <div class="rname">Ash Taupe</div>
+          <div class="rdesc">A cool, muted brown with silvery depth —
+            understated, sophisticated, and modern.</div>
+          <div class="ph rswatch" style="background-image:url('assets/colors-swatch03.jpg');background-size:cover;background-position:center;border:0;"></div>
+        </div>
+
+        <div class="row">
+          <div class="rnum">04</div>
+          <div class="rname">Jet</div>
+          <div class="rdesc">A pure, high-gloss black — bold, striking, and
+            dramatically refined.</div>
+          <div class="ph rswatch" style="background-image:url('assets/colors-swatch04.jpg');background-size:cover;background-position:center;border:0;"></div>
+        </div>
+
+        <div class="row">
+          <div class="rnum">05</div>
+          <div class="rname">Espresso</div>
+          <div class="rdesc">A deep, cool-toned dark brown — sleek, polished, and
+            intensely lustrous.</div>
+          <div class="ph rswatch" style="background-image:url('assets/colors-swatch05.jpg');background-size:cover;background-position:center;border:0;"></div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+  </section>
+  <!-- connector: The Ledger -->
+  <section class="connector" id="c5" data-name="The Ledger"><div class="cinner" style="height:7cqw"></div></section>
+  <section class="screen" id="s6">
+<div class="stage">
+
+    <!-- top header -->
+    <h2 class="title">Find Your Perfect Match</h2>
+    <p class="subtitle">We offer a curated selection of premium methods for flawless results.</p>
+
+    <!-- manu : price list -->
+    <div class="menu">
+      <div class="mitem">
+        <div class="name">Spraytan, full body custom made</div>
+        <div class="sub">10 min.</div>
+        <div class="price">70 €</div>
+      </div>
+      <div class="mitem">
+        <div class="name">add on fragrance drops</div>
+        <div class="sub">5 min.</div>
+        <div class="price">5 €</div>
+      </div>
+      <div class="mitem">
+        <div class="name">pre tanning, PH balancing spray</div>
+        <div class="sub">10 min.</div>
+        <div class="price">15 €</div>
+      </div>
+      <div class="mitem">
+        <div class="name">post tanning hydration setting spray</div>
+        <div class="sub">10 min.</div>
+        <div class="price">15 €</div>
+      </div>
+      <div class="mitem">
+        <div class="name">package: pre and post spray</div>
+        <div class="sub">20 min.</div>
+        <div class="price">20 €</div>
+      </div>
+      <div class="mitem">
+        <div class="name">Gutschein Full Body custommade spraytan</div>
+        <div class="price">70 €</div>
+      </div>
+    </div>
+
+    <!-- Picture 2 -->
+    <div class="ph pic2" style="background-image:url('assets/pricing-custom.jpg');background-size:cover;background-position:center;border:0;"></div>
+
+  </div>
+  </section>
+  </div><!-- /titleband -->
+  <!-- connector: The Gather -->
+  <section class="connector" id="c6" data-name="The Gather"><div class="cinner" style="height:8cqw"></div></section>
+  <section class="screen" id="s7">
+<div class="stage">
+
+    <!-- Picture 1 -->
+    <div class="ph pic1" style="background-image:url('assets/group-squad.jpg');background-size:cover;background-position:center;border:0;"></div>
+
+  </div>
+  </section>
+  <!-- connector: The Close -->
+  <section class="connector" id="c7" data-name="The Close"><div class="cinner" style="height:8cqw"></div></section>
+  <section class="screen" id="s8">
+<div class="stage">
+
+    <!-- CTA -->
+    <h2 class="title">Ready for Your Transformation?</h2>
+    <p class="subtitle">Let's create the hair you've always envisioned.</p>
+    <div class="btn">Schedule Now</div>
+
+    <!-- divider -->
+    <div class="line"></div>
+
+    <!-- logo -->
+    <div class="logo">LA&nbsp;GOLD</div>
+
+    <!-- footer columns -->
+    <div class="footer">
+      <div class="blk b-addr">500 Terry Francine St<br>San Francisco, CA 94158</div>
+      <div class="blk b-contact">123-456-7890<br>info@mysite.com</div>
+      <div class="blk b-social">Instagram<br>Facebook<br>Pinterest</div>
+      <div class="blk b-nav"><a class="cur" href="#">Home</a><br>About<br>Gallery<br>Contact</div>
+      <div class="blk b-legal">Terms &amp; Conditions<br>Privacy Policy<br>Refund Policy<br>Accessibility Statement</div>
+    </div>
+
+  </div>
+  </section>
+  <script>
+  (function(){
+    var mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (mq.matches) return;
+    // reveal every stage child + the sticky band title as it scrolls into view
+    var targets = document.querySelectorAll('.screen .stage > *, .bandtitle');
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    targets.forEach(function(el, i){
+      el.classList.add('rv');
+      // photos fade only (they carry the Ken-Burns transform); text also rises
+      var bg = el.style && el.style.backgroundImage;
+      if(!(el.classList.contains('ph') || bg)) el.classList.add('up');
+      // gentle stagger within each screen
+      var stage = el.closest('.stage');
+      var sibs = stage ? Array.prototype.indexOf.call(stage.children, el) : i;
+      el.style.transitionDelay = (Math.max(0, sibs) % 8 * 70) + 'ms';
+      io.observe(el);
+    });
+  })();
+  </script>
+</body>
+</html>
