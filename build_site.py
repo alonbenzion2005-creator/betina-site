@@ -243,10 +243,12 @@ ALIVE_CSS = """
     body.alive .screen .ph:hover{ filter:brightness(1.05) contrast(1.02);
       box-shadow:0 12px 44px rgba(27,24,21,.18); }
     /* The Seam portrait is one image split across two screens (#s3 .pic +
-       #s4 .pic-top). Hovering one half would brighten/shadow only that half
-       and break the join -- keep it uniform by opting the pair out of hover. */
-    body.alive #s3 .pic:hover, body.alive #s4 .pic-top:hover{
-      filter:none; box-shadow:none; }
+       #s4 .pic-top). JS mirrors the hover onto both halves (.seamhover) so the
+       whole portrait lights up as one. Filter-only glow -- no box-shadow, which
+       would otherwise draw a line along the internal join. */
+    body.alive #s3 .pic:hover, body.alive #s4 .pic-top:hover{ box-shadow:none; }
+    body.alive #s3 .pic.seamhover, body.alive #s4 .pic-top.seamhover{
+      filter:brightness(1.05) contrast(1.02); box-shadow:none; }
 
     @media (prefers-reduced-motion: reduce){
       body.alive .rv{ opacity:1 !important; transform:none !important; transition:none; }
@@ -276,6 +278,18 @@ ALIVE_JS = """  <script>
       el.style.transitionDelay = (Math.max(0, sibs) % 8 * 70) + 'ms';
       io.observe(el);
     });
+    // The Seam portrait is split across two screens -- mirror hover onto both
+    // halves so the whole photo lights up uniformly.
+    var seam = [document.querySelector('#s3 .pic'),
+                document.querySelector('#s4 .pic-top')].filter(Boolean);
+    if(seam.length === 2){
+      seam.forEach(function(el){
+        el.addEventListener('mouseenter', function(){
+          seam.forEach(function(x){ x.classList.add('seamhover'); }); });
+        el.addEventListener('mouseleave', function(){
+          seam.forEach(function(x){ x.classList.remove('seamhover'); }); });
+      });
+    }
   })();
   </script>
 """
