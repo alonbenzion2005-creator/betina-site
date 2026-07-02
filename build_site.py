@@ -242,6 +242,11 @@ ALIVE_CSS = """
     body.alive .ph{ transition:filter .6s ease, box-shadow .6s ease; }
     body.alive .screen .ph:hover{ filter:brightness(1.05) contrast(1.02);
       box-shadow:0 12px 44px rgba(27,24,21,.18); }
+    /* The Seam portrait is one image split across two screens (#s3 .pic +
+       #s4 .pic-top). Hovering one half would brighten/shadow only that half
+       and break the join -- keep it uniform by opting the pair out of hover. */
+    body.alive #s3 .pic:hover, body.alive #s4 .pic-top:hover{
+      filter:none; box-shadow:none; }
 
     @media (prefers-reduced-motion: reduce){
       body.alive .rv{ opacity:1 !important; transform:none !important; transition:none; }
