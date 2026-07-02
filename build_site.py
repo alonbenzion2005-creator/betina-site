@@ -218,15 +218,20 @@ ALIVE_CSS = """
     body.alive .rv.up{ transform:translateY(26px); }
     body.alive .rv.in{ opacity:1; transform:none; }
 
-    /* slow Ken-Burns drift on the big feature photographs (scale>1 so the
-       cover image always overflows its box -- no edge gaps while it moves) */
-    body.alive #s1 .p1, body.alive #s2 .pic1, body.alive #s4 .pic-big,
-    body.alive #s5 .pic1, body.alive #s6 .pic2, body.alive #s7 .pic1{
+    /* slow Ken-Burns drift on the big feature photographs. The photo FRAME
+       keeps the exact static geometry and clips its content; only an oversized
+       inner image layer (inset:-9% -> larger than the frame on every side)
+       moves, so the drift never spills past the frame or shifts the layout,
+       and the enlargement guarantees no edge gaps while it pans/zooms. */
+    body.alive .kbimg{
+      position:absolute; inset:-9%;
+      background-size:cover; background-position:center;
+      will-change:transform;
       animation: aliveKB 26s ease-in-out infinite alternate;
     }
     @keyframes aliveKB{
-      from{ transform:scale(1.05) translate(-1.2%, -1.0%); }
-      to  { transform:scale(1.08) translate(1.2%, 1.2%); }
+      from{ transform:scale(1.00) translate(-1.6%, -1.3%); }
+      to  { transform:scale(1.05) translate( 1.6%,  1.4%); }
     }
 
     /* hero logo breathes in on load */
@@ -240,8 +245,7 @@ ALIVE_CSS = """
 
     @media (prefers-reduced-motion: reduce){
       body.alive .rv{ opacity:1 !important; transform:none !important; transition:none; }
-      body.alive [style*="background-image"], body.alive .p1, body.alive .pic1,
-      body.alive .pic-big, body.alive .pic2, body.alive .logo{ animation:none !important; }
+      body.alive .kbimg, body.alive .logo{ animation:none !important; }
     }
 """
 
@@ -274,5 +278,23 @@ ALIVE_JS = """  <script>
 alive_doc = doc.replace("<body>", '<body class="alive">', 1)
 alive_doc = alive_doc.replace("  </style>", ALIVE_CSS + "  </style>", 1)
 alive_doc = alive_doc.replace("</body>", ALIVE_JS + "</body>", 1)
+
+# Wrap the six feature photos so the Ken-Burns moves an inner oversized layer
+# inside the exact static frame (which now just clips), instead of scaling the
+# frame itself. Identify them by their asset filenames so only these six change.
+import re as _re
+_KB_PHOTOS = ("home-portrait", "reviews-community", "glimpse-group",
+              "colors-portrait", "pricing-custom", "group-squad")
+def _wrap_kb(m):
+    cls, asset = m.group(1), m.group(2)
+    return ('<div class="ph %s" style="border:0;overflow:hidden;">'
+            '<div class="kbimg" style="background-image:url(\'assets/%s.jpg\');">'
+            '</div></div>' % (cls, asset))
+_kb_pat = _re.compile(
+    r'<div class="ph ([^"]+)" style="background-image:url\(\'assets/('
+    + "|".join(_KB_PHOTOS) +
+    r')\.jpg\'\);background-size:cover;background-position:center;border:0;"></div>')
+alive_doc, _n = _kb_pat.subn(_wrap_kb, alive_doc)
+assert _n == len(_KB_PHOTOS), "expected %d KB photos, wrapped %d" % (len(_KB_PHOTOS), _n)
 (HERE / "alive.html").write_text(alive_doc, encoding="utf-8")
 print("Wrote alive.html  (%d bytes)  -- livelier interpretation, index.html untouched" % len(alive_doc))

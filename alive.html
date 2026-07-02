@@ -415,15 +415,20 @@
     body.alive .rv.up{ transform:translateY(26px); }
     body.alive .rv.in{ opacity:1; transform:none; }
 
-    /* slow Ken-Burns drift on the big feature photographs (scale>1 so the
-       cover image always overflows its box -- no edge gaps while it moves) */
-    body.alive #s1 .p1, body.alive #s2 .pic1, body.alive #s4 .pic-big,
-    body.alive #s5 .pic1, body.alive #s6 .pic2, body.alive #s7 .pic1{
+    /* slow Ken-Burns drift on the big feature photographs. The photo FRAME
+       keeps the exact static geometry and clips its content; only an oversized
+       inner image layer (inset:-9% -> larger than the frame on every side)
+       moves, so the drift never spills past the frame or shifts the layout,
+       and the enlargement guarantees no edge gaps while it pans/zooms. */
+    body.alive .kbimg{
+      position:absolute; inset:-9%;
+      background-size:cover; background-position:center;
+      will-change:transform;
       animation: aliveKB 26s ease-in-out infinite alternate;
     }
     @keyframes aliveKB{
-      from{ transform:scale(1.05) translate(-1.2%, -1.0%); }
-      to  { transform:scale(1.08) translate(1.2%, 1.2%); }
+      from{ transform:scale(1.00) translate(-1.6%, -1.3%); }
+      to  { transform:scale(1.05) translate( 1.6%,  1.4%); }
     }
 
     /* hero logo breathes in on load */
@@ -437,8 +442,7 @@
 
     @media (prefers-reduced-motion: reduce){
       body.alive .rv{ opacity:1 !important; transform:none !important; transition:none; }
-      body.alive [style*="background-image"], body.alive .p1, body.alive .pic1,
-      body.alive .pic-big, body.alive .pic2, body.alive .logo{ animation:none !important; }
+      body.alive .kbimg, body.alive .logo{ animation:none !important; }
     }
   </style>
 </head>
@@ -462,7 +466,7 @@
       <p>The perfect golden glow</p>
     </div>
 
-    <div class="ph p1" style="background-image:url('assets/home-portrait.jpg');background-size:cover;background-position:center;border:0;"></div>
+    <div class="ph p1" style="border:0;overflow:hidden;"><div class="kbimg" style="background-image:url('assets/home-portrait.jpg');"></div></div>
     <div class="ph p2" style="background-image:url('assets/home-swatch.jpg');background-size:cover;background-position:center;border:0;"></div>
     <div class="ph p3" style="background-image:url('assets/home-airbrush.jpg');background-size:cover;background-position:center;border:0;"></div>
     <div class="ph p4" style="background-image:url('assets/home-group.jpg');background-size:cover;background-position:center;border:0;"></div>
@@ -474,7 +478,7 @@
 <div class="stage">
 
     <!-- Picture 1 -->
-    <div class="ph pic1" style="background-image:url('assets/reviews-community.jpg');background-size:cover;background-position:center;border:0;"></div>
+    <div class="ph pic1" style="border:0;overflow:hidden;"><div class="kbimg" style="background-image:url('assets/reviews-community.jpg');"></div></div>
 
     <!-- Heading -->
     <h2 class="heading">Words from Our Community</h2>
@@ -539,7 +543,7 @@
 <div class="stage">
 
     <div class="ph pic-top" style="background-image:url('assets/glimpse-studio.jpg');background-size:cover;background-position:center;border:0;"></div>
-    <div class="ph pic-big" style="background-image:url('assets/glimpse-group.jpg');background-size:cover;background-position:center;border:0;"></div>
+    <div class="ph pic-big" style="border:0;overflow:hidden;"><div class="kbimg" style="background-image:url('assets/glimpse-group.jpg');"></div></div>
 
     <h2 class="title">A Glimpse of the Glow-Up</h2>
     <p class="subtitle">See how we bring our clients' hair dreams to life</p>
@@ -556,7 +560,7 @@
     <p class="subtitle">We offer a curated selection of premium methods for flawless results.</p>
 
     <!-- Picture 1 -->
-    <div class="ph pic1" style="background-image:url('assets/colors-portrait.jpg');background-size:cover;background-position:center;border:0;"></div>
+    <div class="ph pic1" style="border:0;overflow:hidden;"><div class="kbimg" style="background-image:url('assets/colors-portrait.jpg');"></div></div>
 
     <!-- text block: the shade list -->
     <div class="textblock">
@@ -651,7 +655,7 @@
     </div>
 
     <!-- Picture 2 -->
-    <div class="ph pic2" style="background-image:url('assets/pricing-custom.jpg');background-size:cover;background-position:center;border:0;"></div>
+    <div class="ph pic2" style="border:0;overflow:hidden;"><div class="kbimg" style="background-image:url('assets/pricing-custom.jpg');"></div></div>
 
   </div>
   </section>
@@ -662,7 +666,7 @@
 <div class="stage">
 
     <!-- Picture 1 -->
-    <div class="ph pic1" style="background-image:url('assets/group-squad.jpg');background-size:cover;background-position:center;border:0;"></div>
+    <div class="ph pic1" style="border:0;overflow:hidden;"><div class="kbimg" style="background-image:url('assets/group-squad.jpg');"></div></div>
 
   </div>
   </section>
