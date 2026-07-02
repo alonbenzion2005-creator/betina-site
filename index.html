@@ -242,10 +242,15 @@
       overflow:hidden; }
 #s5 .list{ position:absolute; left:0; top:0; width:100%; height:100%;
       display:flex; flex-direction:column; }
-#s5 .row{ flex:1; position:relative;
+#s5 .row{ flex-basis:0; position:relative;
       border-top:1px solid var(--rule);
       padding-top:1.0cqw; }
 #s5 .row:first-child{ border-top:0; }
+#s5 .r01{ flex-grow:1.143; }
+#s5 .r02{ flex-grow:0.969; }
+#s5 .r03{ flex-grow:0.991; }
+#s5 .r04{ flex-grow:1.205; }
+#s5 .r05{ flex-grow:1.019; }
 #s5 .rnum{ position:absolute; left:0; top:1.0cqw;
       font-family:var(--serif); font-feature-settings:"lnum" 1; color:var(--ink-soft);
       font-size:1.16cqw; letter-spacing:0.04em; }
@@ -255,8 +260,13 @@
 #s5 .rdesc{ position:absolute; left:8.5%; top:2.9cqw; width:50%;
       font-family:var(--serif); color:var(--ink-soft);
       font-size:1.02cqw; line-height:1.22; }
-#s5 .rswatch{ left:78.5%; top:8%; width:18.5%; height:84%;
-      border:1px dashed #bcae97; }
+#s5 .rswatch{ right:2%; top:50%; transform:translateY(-50%);
+      width:14%; height:auto; border:0; }
+#s5 .rs01{ aspect-ratio:0.875; }
+#s5 .rs02{ aspect-ratio:1.032; }
+#s5 .rs03{ aspect-ratio:1.009; }
+#s5 .rs04{ aspect-ratio:0.830; }
+#s5 .rs05{ aspect-ratio:0.981; }
 #s5 .rswatch span{ font-size:0.7cqw; }
 
 /* ===== s6 (pricing.html) ===== */
@@ -534,39 +544,39 @@
           <div class="rname">Copper Rouge</div>
           <div class="rdesc">A fiery red-gold with molten brilliance —
             confident, rich, and unapologetically radiant.</div>
-          <div class="ph rswatch" style="background-image:url('assets/colors-swatch01.jpg');background-size:cover;background-position:center;border:0;"></div>
+          <div class="ph rswatch rs01" style="background-image:url('assets/colors-swatch01.jpg');background-size:cover;background-position:center;border:0;"></div>
         </div>
 
-        <div class="row">
+        <div class="row r02">
           <div class="rnum">02</div>
           <div class="rname">Champagne Blonde</div>
           <div class="rdesc">A pale, luminous blonde with creamy warmth —
             soft, ethereal, and timelessly elegant.</div>
-          <div class="ph rswatch" style="background-image:url('assets/colors-swatch02.jpg');background-size:cover;background-position:center;border:0;"></div>
+          <div class="ph rswatch rs02" style="background-image:url('assets/colors-swatch02.jpg');background-size:cover;background-position:center;border:0;"></div>
         </div>
 
-        <div class="row">
+        <div class="row r03">
           <div class="rnum">03</div>
           <div class="rname">Ash Taupe</div>
           <div class="rdesc">A cool, muted brown with silvery depth —
             understated, sophisticated, and modern.</div>
-          <div class="ph rswatch" style="background-image:url('assets/colors-swatch03.jpg');background-size:cover;background-position:center;border:0;"></div>
+          <div class="ph rswatch rs03" style="background-image:url('assets/colors-swatch03.jpg');background-size:cover;background-position:center;border:0;"></div>
         </div>
 
-        <div class="row">
+        <div class="row r04">
           <div class="rnum">04</div>
           <div class="rname">Jet</div>
           <div class="rdesc">A pure, high-gloss black — bold, striking, and
             dramatically refined.</div>
-          <div class="ph rswatch" style="background-image:url('assets/colors-swatch04.jpg');background-size:cover;background-position:center;border:0;"></div>
+          <div class="ph rswatch rs04" style="background-image:url('assets/colors-swatch04.jpg');background-size:cover;background-position:center;border:0;"></div>
         </div>
 
-        <div class="row">
+        <div class="row r05">
           <div class="rnum">05</div>
           <div class="rname">Espresso</div>
           <div class="rdesc">A deep, cool-toned dark brown — sleek, polished, and
             intensely lustrous.</div>
-          <div class="ph rswatch" style="background-image:url('assets/colors-swatch05.jpg');background-size:cover;background-position:center;border:0;"></div>
+          <div class="ph rswatch rs05" style="background-image:url('assets/colors-swatch05.jpg');background-size:cover;background-position:center;border:0;"></div>
         </div>
 
       </div>
